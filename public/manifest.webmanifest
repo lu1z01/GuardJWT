@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "GuardJWT",
+  "short_name": "GuardJWT",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#121820",
+  "theme_color": "#121820",
+  "icons": [
+    {
+      "src": "/shield.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "description": "Decode, inspect, verify and audit JWT and JOSE data locally in your browser.",
+  "lang": "en"
+}
