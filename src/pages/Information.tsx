@@ -1,3 +1,5 @@
+import { SiteLink } from '../components/SiteLink';
+import { Brand } from '../components/Brand';
 import { LanguageSelector } from '../i18n';
 import { useI18n } from '../i18n/context';
 import { Footer } from '../components/Footer';
@@ -9,10 +11,8 @@ export function Information({ path }: { path: string }) {
   return (
     <div className="app-shell institutional">
       <header className="topbar">
-        <a className="brand" href="/">
-          GuardJWT
-        </a>
-        <a href="/">{tr('← Open workbench')}</a>
+        <Brand />
+        <SiteLink href="/">{tr('← Open workbench')}</SiteLink>
         <LanguageSelector />
       </header>
       {path === '/privacy' ? (
@@ -164,8 +164,10 @@ export function Information({ path }: { path: string }) {
               <h1>{tr('Page not found')}</h1>
               <p>
                 {' '}
-                {tr('Return to the')} <a href="/">{tr('workbench')}</a>{' '}
-                {tr('or open the')} <a href="/docs">{tr('documentation')}</a>.
+                {tr('Return to the')}{' '}
+                <SiteLink href="/">{tr('workbench')}</SiteLink>{' '}
+                {tr('or open the')}{' '}
+                <SiteLink href="/docs">{tr('documentation')}</SiteLink>.
               </p>
             </>
           )}

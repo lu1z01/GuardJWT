@@ -58,7 +58,7 @@ export function JsonTree({
                         ? 'search-match'
                         : '')
                     }
-                    aria-label={'Inspect claim ' + pointer}
+                    aria-label={tr('Inspect claim {pointer}', { pointer })}
                     onClick={() => onSelect(pointer)}
                   >
                     {JSON.stringify(k)}

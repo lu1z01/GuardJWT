@@ -11,7 +11,7 @@ export function Builder({
 }: {
   onOpen?: (token: string, verify?: boolean) => void;
 }) {
-  const { tr } = useI18n();
+  const { tr, locale } = useI18n();
   const [header, setHeader] = useState('{"alg":"HS256","typ":"JWT"}'),
     [payload, setPayload] = useState('{"sub":"fictional-user","role":"user"}'),
     [key, setKey] = useState(''),
@@ -154,7 +154,7 @@ export function Builder({
       </div>
       {validation && (
         <p role="status" className="warning">
-          {validation}
+          {tr(validation)}
         </p>
       )}
       <div className="toolbar">
@@ -245,7 +245,7 @@ export function Builder({
         <div
           className="table-scroll"
           role="region"
-          aria-label="Builder table"
+          aria-label={tr('Builder table')}
           tabIndex={0}
         >
           <table>
@@ -265,8 +265,8 @@ export function Builder({
                   <td>{date(v)}</td>
                   <td>
                     {Math.abs(v) <= 8.64e12
-                      ? new Date(v * 1000).toLocaleString()
-                      : 'Out of range'}
+                      ? new Date(v * 1000).toLocaleString(locale)
+                      : tr('Out of range')}
                   </td>
                 </tr>
               ))}
@@ -302,8 +302,8 @@ export function Builder({
       </label>
       <label>
         {mode === 'secret'
-          ? 'Secret (UTF-8)'
-          : 'Private key — PKCS8 PEM or JWK'}
+          ? tr('Secret (UTF-8)')
+          : tr('Private key — PKCS8 PEM or JWK')}
         {mode === 'secret' ? (
           <input
             type={show ? 'text' : 'password'}
@@ -337,8 +337,8 @@ export function Builder({
         <p className="warning">
           {' '}
           {tr('Development secret warning:')} {quality.bytes} UTF-8 bytes.{' '}
-          {quality.short ? 'Below RFC 7518 minimum length. ' : ''}
-          {quality.weak ? 'Trivial pattern detected. ' : ''}
+          {quality.short ? tr('Below RFC 7518 minimum length.') + ' ' : ''}
+          {quality.weak ? tr('Trivial pattern detected.') + ' ' : ''}
           {tr('Length is not a measurement of entropy.')}{' '}
         </p>
       )}
@@ -403,13 +403,13 @@ export function Builder({
           {tr('Generate unsecured JWT')}{' '}
         </button>
       </details>
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{tr(error)}</p>}
       {out && (
         <section>
           <h2>{tr('Generated JWT')}</h2>
           <pre>{out}</pre>
           <div className="toolbar">
-            <CopyButton value={out} label="Copy JWT" />
+            <CopyButton value={out} label={tr('Copy JWT')} />
             {onOpen && (
               <>
                 <button onClick={() => onOpen(out)}>

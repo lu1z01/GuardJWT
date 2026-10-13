@@ -50,7 +50,7 @@ As verificações temporárias foram executadas fora do repositório. A suíte h
 
 ## Idiomas e limites da tradução
 
-Interface, orientações, formulários e páginas institucionais usam PT-BR, EN e ES. Valores do token, algoritmos e estruturas JSON não são traduzidos. Diagnósticos avançados, referências técnicas e relatórios podem manter inglês. O idioma é selecionado localmente e não é persistido; abrir outra página ou recarregar volta à preferência do navegador. Trocar o seletor no workspace não altera os identificadores das ferramentas nem suas chaves de montagem.
+Interface, orientações, formulários e páginas institucionais usam PT-BR, EN e ES. Valores do token, algoritmos e estruturas JSON não são traduzidos. Diagnósticos e explicações técnicas também possuem tradução local. Relatórios exportados mantêm o formato e os textos técnicos estáveis; referências externas não são traduzidas. O idioma é selecionado localmente e não é persistido; a navegação interna mantém a escolha, enquanto recarregar ou abrir outra aba volta à preferência do navegador. Trocar o seletor no workspace não altera os identificadores das ferramentas nem suas chaves de montagem.
 
 ## Pendências reais antes de promover a alpha
 

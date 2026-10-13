@@ -3,7 +3,7 @@ import { CommandPalette } from './CommandPalette';
 import { useI18n } from '../i18n/context';
 import { LanguageSelector } from '../i18n';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { Brand } from '../components/Brand';
 import { Footer } from '../components/Footer';
 import { publicLink, repositoryUrl } from '../config/author';
 import { useAnalysis } from '../hooks/useAnalysis';
@@ -62,7 +62,7 @@ const TABS = [
 ] as const;
 type Tab = (typeof TABS)[number];
 export function Workspace() {
-  const { tr } = useI18n();
+  const { tr, locale } = useI18n();
   const [token, setToken] = useState(''),
     [tab, setTab] = useState<Tab>('Decoder'),
     [message, setMessage] = useState(''),
@@ -183,10 +183,7 @@ export function Workspace() {
         {tr('Skip to analysis')}{' '}
       </a>
       <header className="topbar">
-        <a className="brand" href="/">
-          <ShieldCheck size={19} />
-          GuardJWT
-        </a>
+        <Brand />
         <nav aria-label={tr('Main navigation')}>
           <LanguageSelector />
           <button
@@ -298,7 +295,7 @@ export function Workspace() {
               />
               <div className="editor-meta">
                 <span>
-                  {token.length.toLocaleString()} {tr('characters')}
+                  {token.length.toLocaleString(locale)} {tr('characters')}
                 </span>
                 <button
                   aria-pressed={wrapInput}
@@ -337,7 +334,9 @@ export function Workspace() {
                 >
                   <option value="">{tr('Choose fictitious example…')}</option>
                   {EXAMPLES.map((n) => (
-                    <option key={n}>{n}</option>
+                    <option key={n} value={n}>
+                      {tr(n)}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -405,7 +404,7 @@ export function Workspace() {
                       ?.focus();
                   }
                 }}
-                key={tr(name)}
+                key={name}
                 onClick={() => setTab(name)}
               >
                 {tr(name)}
@@ -423,7 +422,7 @@ export function Workspace() {
               ['Decoder', 'Claims Breakdown', 'Security', 'Verify'] as const
             ).map((name, i) => (
               <button
-                key={tr(name)}
+                key={name}
                 aria-label={tr(name)}
                 aria-current={tab === name ? 'page' : undefined}
                 onClick={() => setTab(name)}
@@ -476,7 +475,7 @@ export function Workspace() {
                 </p>
                 <p>
                   {tr(
-                    'Technical diagnostics and references may appear in English. Token values are never translated.',
+                    'Technical names and exported JSON stay unchanged. Your token data is never translated.',
                   )}
                 </p>
               </details>
@@ -504,9 +503,9 @@ export function Workspace() {
                   <tbody>
                     {findings.slice(0, 100).map((f, i) => (
                       <tr key={i}>
-                        <td>{f.severity}</td>
-                        <td>{f.title}</td>
-                        <td>{f.category}</td>
+                        <td>{tr(f.severity)}</td>
+                        <td>{tr(f.title)}</td>
+                        <td>{tr(f.category)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -592,7 +591,7 @@ export function Workspace() {
                       </p>
                       <details>
                         <summary>{tr('Technical details')}</summary>
-                        <p>{t.message}</p>
+                        <p>{tr(t.message)}</p>
                       </details>
                     </div>
                   ) : (
@@ -706,7 +705,7 @@ export function Workspace() {
         </span>
         <span>
           {!privateMode && t?.ok && t.format !== 'JWE Compact'
-            ? `${t.segments[2]?.bytes ?? 0} bytes · ${t.segments[2]?.bytes ? (cryptoResult.status === 'NOT VERIFIED' ? 'present, not verified' : cryptoResult.status) : 'absent — unsigned'}`
+            ? `${t.segments[2]?.bytes ?? 0} bytes · ${t.segments[2]?.bytes ? (cryptoResult.status === 'NOT VERIFIED' ? tr('present, not verified') : tr(cryptoResult.status)) : tr('absent — unsigned')}`
             : tr('Sensitive processing stays local')}{' '}
           · LOCAL
         </span>

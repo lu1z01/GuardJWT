@@ -24,7 +24,9 @@ export function Sanitize({ payload }: { payload: Obj }) {
           onChange={(e) => setProfile(e.target.value as RedactionProfile)}
         >
           {['Default', 'Privacy', 'Support', 'Strict'].map((p) => (
-            <option key={p}>{p}</option>
+            <option key={p} value={p}>
+              {tr(p)}
+            </option>
           ))}
         </select>
       </label>
@@ -35,7 +37,7 @@ export function Sanitize({ payload }: { payload: Obj }) {
         )}{' '}
       </p>
       <pre>{value}</pre>
-      <CopyButton value={value} label="Copy sanitized JSON" />
+      <CopyButton value={value} label={tr('Copy sanitized JSON')} />
       <details>
         <summary>{tr('Original / sanitized diff')}</summary>
         <div className="split">

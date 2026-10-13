@@ -20,13 +20,13 @@ export function Timeline({ payload }: { payload: Obj }) {
     <>
       <h2>{tr('Timeline / Time Simulator')}</h2>
       <p className="notice">
-        {t.status}{' '}
+        {tr(t.status)}{' '}
         {tr('— temporal checks only; this does not verify authenticity.')}{' '}
       </p>
       <div className="timeline">
         {events.map((e) => (
           <div key={e.name}>
-            <strong>{e.name}</strong>
+            <strong>{tr(e.name)}</strong>
             <span>│</span>
             <time>{date(e.time)}</time>
           </div>
@@ -34,9 +34,9 @@ export function Timeline({ payload }: { payload: Obj }) {
       </div>
       <label>
         {' '}
-        {tr('Simulation offset:')} {offset} sec
+        {tr('Simulation offset:')} {offset} {tr('seconds')}
         <input
-          aria-label="Simulation offset"
+          aria-label={tr('Simulation offset')}
           type="range"
           min="-86400"
           max="86400"
@@ -86,10 +86,10 @@ export function Timeline({ payload }: { payload: Obj }) {
         <dd>
           {t.remaining === undefined
             ? '—'
-            : Math.round(t.remaining) + ' seconds'}
+            : Math.round(t.remaining) + ' ' + tr('seconds')}
         </dd>
         <dt>{tr('Invalid dates')}</dt>
-        <dd>{t.invalid.join(', ') || 'None'}</dd>
+        <dd>{t.invalid.join(', ') || tr('None')}</dd>
       </dl>
     </>
   );

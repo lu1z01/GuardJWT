@@ -108,9 +108,9 @@ As regras são recursivas e heurísticas. Nomes de campos e a estrutura ainda po
 
 ## Idiomas e acessibilidade
 
-O idioma inicial segue a lista de preferências do navegador, com fallback para inglês. O seletor permite trocar entre português, inglês e espanhol sem apagar o token nem reiniciar os formulários. A escolha fica apenas em memória; ao recarregar ou abrir outra página, as preferências do navegador voltam a ser usadas.
+O idioma inicial segue a lista de preferências do navegador, com fallback para inglês. O seletor permite trocar entre português, inglês e espanhol sem apagar o token nem reiniciar os formulários. A escolha fica apenas em memória; a navegação interna mantém a escolha. Ao recarregar ou abrir outra aba, as preferências do navegador voltam a ser usadas.
 
-A tradução é um catálogo local em `src/i18n/messages.ts`. Não há API de tradução. Navegação, instruções, formulários e páginas institucionais são traduzidos. Diagnósticos técnicos avançados, referências externas e relatórios podem permanecer em inglês. Claims, tokens, chaves, nomes de algoritmos, JSON Pointer e valores do usuário não são traduzidos.
+A tradução usa catálogos locais de interface, diagnósticos e referências em `src/i18n/`, reunidos por `messages.ts`. Não há API de tradução. Navegação, instruções, formulários, alertas, explicações técnicas e páginas institucionais são traduzidos. As buscas aceitam os rótulos do idioma selecionado e ignoram acentos. Exportações mantêm seus identificadores e textos técnicos estáveis em inglês; referências externas continuam no idioma original. Consulte o [guia de localização](docs/localization.md). Claims, tokens, chaves, nomes de algoritmos, JSON Pointer e valores do usuário não são traduzidos.
 
 Há temas claro/escuro, foco visível, labels de formulário, atalhos e respeito à preferência de movimento reduzido. A revisão com leitores de tela e dispositivos reais continua pendente.
 

@@ -4,14 +4,13 @@ Versões exatas no package.json e package-lock.json. Licenças, datas de publica
 
 ## Justificativas
 
-| Grupo     | Pacotes                                                                                                          | Necessidade                                                                  |
-| --------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Interface | react, react-dom                                                                                                 | Componentes, estado local e renderização segura de texto                     |
-| Ícones    | lucide-react                                                                                                     | Ícones acessíveis sem assets externos; somente ícones usados entram no build |
-| Build     | vite, @vitejs/plugin-react, typescript                                                                           | Servidor local, compilação e tipagem strict                                  |
-| Estilos   | tailwindcss, @tailwindcss/vite                                                                                   | Pipeline de estilos da stack pedida; CSS estático em produção                |
-| Qualidade | eslint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, prettier | Lint, fronteiras e formatação                                                |
-| Tipos     | @types/react, @types/react-dom, @types/node                                                                      | Tipos de UI e configuração de desenvolvimento                                |
+| Grupo     | Pacotes                                                                                                          | Necessidade                                                   |
+| --------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Interface | react, react-dom                                                                                                 | Componentes, estado local e renderização segura de texto      |
+| Build     | vite, @vitejs/plugin-react, typescript                                                                           | Servidor local, compilação e tipagem strict                   |
+| Estilos   | tailwindcss, @tailwindcss/vite                                                                                   | Pipeline de estilos da stack pedida; CSS estático em produção |
+| Qualidade | eslint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, prettier | Lint, fronteiras e formatação                                 |
+| Tipos     | @types/react, @types/react-dom, @types/node                                                                      | Tipos de UI e configuração de desenvolvimento                 |
 
 ## Inventário direto
 
@@ -21,7 +20,6 @@ Versões exatas no package.json e package-lock.json. Licenças, datas de publica
 | lossless-json               | 4.3.1   | MIT        | parser/workers  |
 | react                       | 19.3.0  | MIT        | browser         |
 | react-dom                   | 19.3.0  | MIT        | browser         |
-| lucide-react                | 1.55.0  | ISC        | browser         |
 | vite                        | 8.3.4   | MIT        | desenvolvimento |
 | @vitejs/plugin-react        | 6.1.2   | MIT        | desenvolvimento |
 | typescript                  | 6.0.3   | Apache-2.0 | desenvolvimento |

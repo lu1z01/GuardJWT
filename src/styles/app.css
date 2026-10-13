@@ -262,19 +262,28 @@ button:hover:not(:disabled) {
   border-bottom: 1px solid var(--border);
   min-height: 48px;
 }
+/* Preserve the supplied artwork; crop its empty margins only in presentation. */
 .brand {
-  display: flex;
-  gap: 7px;
+  display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
-  color: inherit;
-  font-size: 16px;
-  font-weight: 650;
-  white-space: nowrap;
-  letter-spacing: -0.25px;
+  border-radius: 4px;
+  overflow: hidden;
 }
-.brand svg {
-  color: var(--accent);
-  flex: none;
+.brand-logo {
+  display: block;
+  width: 160px;
+  height: 48px;
+  object-fit: cover;
+  object-position: center 49%;
+  background: #fff;
+}
+.site-footer .brand {
+  margin-bottom: 6px;
+}
+.site-footer .brand-logo {
+  width: 140px;
+  height: 44px;
 }
 .local {
   color: var(--success);
@@ -723,12 +732,7 @@ button:hover:not(:disabled) {
   padding: 10px 15px;
   font-size: 11px;
 }
-.site-footer.compact strong {
-  display: none;
-}
-.source-link {
-  font-weight: 600;
-}
+
 .institutional main {
   width: 100%;
   flex: 1;
@@ -770,9 +774,6 @@ button:hover:not(:disabled) {
     gap: 8px;
     padding: 10px;
     flex-wrap: wrap;
-  }
-  .brand {
-    font-size: 14px;
   }
   .topbar nav button:first-child {
     display: none;
@@ -987,4 +988,14 @@ button:hover:not(:disabled) {
   .language-selector select {
     max-width: 112px;
   }
+}
+
+.source-link {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.source-link svg {
+  flex: 0 0 auto;
 }

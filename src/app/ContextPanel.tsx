@@ -35,9 +35,13 @@ export function ContextPanel({
             <dd>{t?.ok ? print(t.header.alg, false) : '—'}</dd>
             <dt>{tr('Profile estimate')}</dt>
             <dd>
-              {detected?.name ?? '—'}
+              {detected ? tr(detected.name) : '—'}
               <small>
-                {detected ? detected.confidence + ' confidence' : ''}
+                {detected
+                  ? tr('Confidence: {level}', {
+                      level: tr(detected.confidence),
+                    })
+                  : ''}
               </small>
             </dd>
             <dt>{tr('Profile evidence')}</dt>
@@ -51,10 +55,10 @@ export function ContextPanel({
         <dt>{tr('Policy')}</dt>
         <dd>
           {checks.length
-            ? checks.filter((c) => c.status === 'Passed').length +
-              '/' +
-              checks.length +
-              ' passed'
+            ? tr('{passed}/{total} passed', {
+                passed: checks.filter((c) => c.status === 'Passed').length,
+                total: checks.length,
+              })
             : tr('Not evaluated')}
         </dd>
       </dl>
@@ -63,7 +67,7 @@ export function ContextPanel({
           <h2>{tr('Size')}</h2>
           {t.segments.map((s) => (
             <div className="stat" key={s.name}>
-              <span>{s.name}</span>
+              <span>{tr(s.name)}</span>
               <code>{s.bytes} B</code>
             </div>
           ))}

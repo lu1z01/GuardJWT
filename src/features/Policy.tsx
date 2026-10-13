@@ -46,7 +46,7 @@ export function Policy({
         >
           {PRESETS.map((p, i) => (
             <option key={p.name} value={i}>
-              {p.name}
+              {tr(p.name)}
             </option>
           ))}
         </select>
@@ -79,11 +79,11 @@ export function Policy({
         {' '}
         {tr('Evaluate policy')}{' '}
       </button>
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{tr(error)}</p>}
       <div
         className="table-scroll"
         role="region"
-        aria-label="Policy table"
+        aria-label={tr('Policy table')}
         tabIndex={0}
       >
         <table>
@@ -97,9 +97,17 @@ export function Policy({
           <tbody>
             {checks.map((c, i) => (
               <tr key={i}>
-                <td>{c.rule}</td>
+                <td>
+                  {c.rule.startsWith('required claim: ')
+                    ? tr('Required claim: {name}', { name: c.rule.slice(16) })
+                    : c.rule.startsWith('forbidden claim: ')
+                      ? tr('Forbidden claim: {name}', {
+                          name: c.rule.slice(17),
+                        })
+                      : c.rule}
+                </td>
                 <td>{tr(c.status)}</td>
-                <td>{c.description}</td>
+                <td>{tr(c.description)}</td>
               </tr>
             ))}
           </tbody>

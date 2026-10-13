@@ -90,11 +90,11 @@ export function Batch() {
         {tr('Analyze batch')}{' '}
       </button>
       {busy && <span role="status">{tr('Analyzing locally…')}</span>}
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{tr(error)}</p>}
       <div
         className="table-scroll"
         role="region"
-        aria-label="Batch table"
+        aria-label={tr('Batch table')}
         tabIndex={0}
       >
         <table>
@@ -122,7 +122,7 @@ export function Batch() {
                 <td>{r.issuer}</td>
                 <td>{r.audience}</td>
                 <td>{r.expiration}</td>
-                <td>{r.status}</td>
+                <td>{tr(r.status)}</td>
                 <td>{r.score ?? '—'}</td>
                 <td>{r.size} B</td>
               </tr>

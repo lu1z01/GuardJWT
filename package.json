@@ -19,7 +19,6 @@
   "dependencies": {
     "jose": "6.2.12",
     "lossless-json": "4.3.1",
-    "lucide-react": "1.55.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

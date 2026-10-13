@@ -1,3 +1,4 @@
+import { searchText } from '../i18n/translate';
 import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import { score, type Finding } from '../core/audit/analyze';
@@ -20,9 +21,16 @@ export function Security({
     (f) =>
       (!pointer || f.claimPointers?.includes(pointer)) &&
       (!severity || f.severity === severity) &&
-      (f.title + ' ' + f.category + ' ' + f.evidence)
-        .toLowerCase()
-        .includes(q.toLowerCase()),
+      searchText(
+        [
+          f.title,
+          tr(f.title),
+          f.category,
+          tr(f.category),
+          tr(f.description),
+          f.evidence,
+        ].join(' '),
+      ).includes(searchText(q)),
   );
   const [limit, setLimit] = useState(100);
   return (
@@ -52,13 +60,13 @@ export function Security({
         </p>
         {s.penalties.slice(0, 100).map((p) => (
           <div key={p.id}>
-            −{p.points} {p.title}
+            −{p.points} {tr(p.title)}
           </div>
         ))}
       </details>
       <input
-        aria-label="Search findings"
-        placeholder="Filter findings"
+        aria-label={tr('Search findings')}
+        placeholder={tr('Filter findings')}
         value={q}
         onChange={(e) => {
           setQ(e.target.value);
@@ -98,12 +106,12 @@ export function Security({
         <details className="finding" key={f.id}>
           <summary>
             <span className={'severity ' + f.severity}>{tr(f.severity)}</span>{' '}
-            {f.title}{' '}
+            {tr(f.title)}{' '}
             <small>
-              {f.category} · {f.scope}
+              {tr(f.category)} · {tr(f.scope)}
             </small>
           </summary>
-          <p>{f.description}</p>
+          <p>{tr(f.description)}</p>
           {onClaim &&
             f.claimPointers?.map((p) => (
               <button key={p} onClick={() => onClaim(p)}>
@@ -113,7 +121,7 @@ export function Security({
             ))}
           <pre>{f.evidence}</pre>
           <p>
-            <strong>{tr('What to check:')}</strong> {f.recommendation}
+            <strong>{tr('What to check:')}</strong> {tr(f.recommendation)}
           </p>
           <p>
             {' '}

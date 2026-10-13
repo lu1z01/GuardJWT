@@ -8,6 +8,7 @@ export function Tools({ token }: { token: string }) {
   const { tr } = useI18n();
   const [input, setInput] = useState(''),
     [out, setOut] = useState(''),
+    [outIsMessage, setOutIsMessage] = useState(false),
     [error, setError] = useState('');
   const revision = useRef(0);
   useEffect(
@@ -16,10 +17,11 @@ export function Tools({ token }: { token: string }) {
     },
     [token],
   );
-  function action(fn: () => string) {
+  function action(fn: () => string, isMessage = false) {
     revision.current++;
     try {
       setOut(fn());
+      setOutIsMessage(isMessage);
       setError('');
     } catch {
       setOut('');
@@ -60,7 +62,7 @@ export function Tools({ token }: { token: string }) {
         </button>
         {['Pretty print', 'Minify', 'Validate'].map((label, i) => (
           <button
-            key={tr(label)}
+            key={label}
             onClick={() =>
               action(() => {
                 const p = readJson(input);
@@ -71,7 +73,7 @@ export function Tools({ token }: { token: string }) {
                 )
                   throw new Error();
                 return i === 2 ? 'Valid JSON' : print(p.value, i === 0);
-              })
+              }, i === 2)
             }
           >
             JSON {tr(label)}
@@ -100,12 +102,13 @@ export function Tools({ token }: { token: string }) {
             })
           }
         >
-          ISO date → Unix
+          {' '}
+          {tr('ISO date → Unix')}{' '}
         </button>
       </div>
-      {error && <p role="alert">{error}</p>}
-      <pre>{out || 'Output appears here.'}</pre>
-      {out && <CopyButton value={out} />}
+      {error && <p role="alert">{tr(error)}</p>}
+      <pre>{(outIsMessage ? tr(out) : out) || tr('Output appears here.')}</pre>
+      {out && <CopyButton value={outIsMessage ? tr(out) : out} />}
       <h2>{tr('Current token utilities')}</h2>
       <p>
         {' '}
@@ -115,7 +118,7 @@ export function Tools({ token }: { token: string }) {
       </p>
       <CopyButton
         value={'Authorization: Bearer ' + token}
-        label="Copy Authorization header"
+        label={tr('Copy Authorization header')}
       />
       <p>
         {' '}
@@ -130,6 +133,7 @@ export function Tools({ token }: { token: string }) {
       <button
         onClick={async () => {
           const id = ++revision.current;
+          setOutIsMessage(false);
           setOut('');
           setError('');
           try {

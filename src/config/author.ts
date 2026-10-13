@@ -7,7 +7,7 @@ export const author = {
   instagram: '',
   email: '',
 };
-export const repositoryUrl = '';
+export const repositoryUrl = 'https://github.com/lu1z01/GuardJWT';
 export function publicLink(value: string, email = false): string | undefined {
   if (!value) return undefined;
   if (email)

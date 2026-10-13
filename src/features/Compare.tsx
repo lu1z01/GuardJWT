@@ -47,11 +47,11 @@ export function Compare({ token }: { token: Inspection }) {
           }}
         />
       </label>
-      {other && t && !t.ok && <p role="alert">{t.message}</p>}
-      {error && <p role="alert">{error}</p>}
+      {other && t && !t.ok && <p role="alert">{tr(t.message)}</p>}
+      {error && <p role="alert">{tr(error)}</p>}
       <input
-        aria-label="Search differences"
-        placeholder="Filter paths"
+        aria-label={tr('Search differences')}
+        placeholder={tr('Filter paths')}
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -67,7 +67,7 @@ export function Compare({ token }: { token: Inspection }) {
       <div
         className="table-scroll"
         role="region"
-        aria-label="Compare table"
+        aria-label={tr('Compare table')}
         tabIndex={0}
       >
         <table>
@@ -87,7 +87,7 @@ export function Compare({ token }: { token: Inspection }) {
                 <tr key={r.path}>
                   <td>
                     {r.path}
-                    <small>{r.status}</small>
+                    <small>{tr(r.status)}</small>
                   </td>
                   <td>
                     <pre>{r.before.slice(0, 2500)}</pre>

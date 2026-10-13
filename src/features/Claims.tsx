@@ -1,3 +1,4 @@
+import { searchText } from '../i18n/translate';
 import { useI18n } from '../i18n/context';
 import { useMemo, useState } from 'react';
 import { claims } from '../core/claims/explore';
@@ -16,7 +17,7 @@ export function Claims({
   onDecoder?: (p: string) => void;
   onSecurity?: (pointer: string) => void;
 }) {
-  const { tr } = useI18n();
+  const { tr, locale } = useI18n();
   const [q, setQ] = useState(''),
     [category, setCategory] = useState(''),
     [sort, setSort] = useState('Original order'),
@@ -41,20 +42,31 @@ export function Claims({
               : category === 'Custom'
                 ? d.category.toLowerCase() === 'custom'
                 : d.category.toLowerCase() === category.toLowerCase())) &&
-        (c.path + ' ' + c.name + ' ' + d.category + ' ' + print(c.value, false))
-          .toLowerCase()
-          .includes(q.toLowerCase())
+        searchText(
+          [
+            c.path,
+            c.name,
+            d.category,
+            tr(d.category),
+            tr(d.meaning),
+            print(c.value, false),
+          ].join(' '),
+        ).includes(searchText(q))
       );
     });
-    if (sort === 'Alphabetical') r.sort((a, b) => a.path.localeCompare(b.path));
+    if (sort === 'Alphabetical')
+      r.sort((a, b) => a.path.localeCompare(b.path, locale));
     if (sort === 'Category')
       r.sort((a, b) =>
-        claimDetails(a).category.localeCompare(claimDetails(b).category),
+        tr(claimDetails(a).category).localeCompare(
+          tr(claimDetails(b).category),
+          locale,
+        ),
       );
     if (sort === 'Risk')
       r.sort((a, b) => Number(pii.has(b.pointer)) - Number(pii.has(a.pointer)));
     return r;
-  }, [all, category, q, sort, pii]);
+  }, [all, category, q, sort, pii, tr, locale]);
   const active = all.find((c) => c.pointer === selected);
   return (
     <>
@@ -153,15 +165,15 @@ export function Claims({
           return (
             <section className="claim-detail" aria-label={tr('Selected claim')}>
               <h2>
-                {active.name} — {d.name}
+                {active.name} — {tr(d.name)}
               </h2>
               <p>
-                {d.category} · {d.temporal ? 'NumericDate' : active.type}{' '}
-                {pii.has(active.pointer) ? '· Possible PII' : ''}
+                {tr(d.category)} · {d.temporal ? 'NumericDate' : active.type}{' '}
+                {pii.has(active.pointer) ? tr('· Possible PII') : ''}
               </p>
-              <p>{d.meaning}</p>
+              <p>{tr(d.meaning)}</p>
               <pre>{print(active.value)}</pre>
-              <p>{d.security}</p>
+              <p>{tr(d.security)}</p>
               {d.temporal && (
                 <dl>
                   <dt>Unix</dt>
@@ -169,14 +181,22 @@ export function Claims({
                   <dt>UTC</dt>
                   <dd>{d.temporal.utc}</dd>
                   <dt>{tr('Local')}</dt>
-                  <dd>{d.temporal.local}</dd>
+                  <dd>
+                    {Number.isFinite(d.temporal.unix) &&
+                    Math.abs(d.temporal.unix) <= 8.64e12
+                      ? new Intl.DateTimeFormat(locale, {
+                          dateStyle: 'medium',
+                          timeStyle: 'medium',
+                        }).format(new Date(d.temporal.unix * 1000))
+                      : tr('Out of supported range')}
+                  </dd>
                   <dt>{tr('Relative to analysis time')}</dt>
                   <dd>
                     {Math.abs(d.temporal.relative)} {tr('seconds')}{' '}
-                    {d.temporal.relative >= 0 ? 'from now' : 'ago'}
+                    {d.temporal.relative >= 0 ? tr('from now') : tr('ago')}
                   </dd>
                   <dt>{tr('Temporal status only')}</dt>
-                  <dd>{d.temporal.status}</dd>
+                  <dd>{tr(d.temporal.status)}</dd>
                 </dl>
               )}
               {d.items && (
@@ -260,13 +280,13 @@ export function Claims({
                     {c.path}
                   </button>
                   <small>{c.type}</small>
-                  <small>{c.description}</small>
+                  <small>{tr(c.description)}</small>
                 </td>
                 <td>
                   <pre>{print(c.value, false).slice(0, 1500)}</pre>
                 </td>
                 <td>
-                  {claimDetails(c).category}
+                  {tr(claimDetails(c).category)}
                   {pii.has(c.pointer) && <small>{tr('Possible PII')}</small>}
                   <div className="row-actions">
                     <CopyButton value={c.path} label={tr('Path')} />

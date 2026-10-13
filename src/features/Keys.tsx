@@ -110,7 +110,7 @@ export function Keys({ kid }: { kid: unknown }) {
           }
         }}
       >
-        {busy ? 'Inspecting locally…' : 'Inspect keys'}
+        {busy ? tr('Inspecting locally…') : tr('Inspect keys')}
       </button>
       {!input && (
         <p className="muted">
@@ -120,14 +120,14 @@ export function Keys({ kid }: { kid: unknown }) {
       )}
       {match && (
         <p>
-          {tr('Current token kid:')} {match}
+          {tr('Current token kid:')} {tr(match)}
         </p>
       )}
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{tr(error)}</p>}
       <div
         className="table-scroll"
         role="region"
-        aria-label="Keys table"
+        aria-label={tr('Keys table')}
         tabIndex={0}
       >
         <table>
@@ -146,7 +146,7 @@ export function Keys({ kid }: { kid: unknown }) {
                   {r.kid}
                   <small>
                     {r.kty}
-                    {r.private ? ' · sensitive key' : ''}
+                    {r.private ? ' ' + tr('· sensitive key') : ''}
                   </small>
                 </td>
                 <td>
@@ -165,7 +165,7 @@ export function Keys({ kid }: { kid: unknown }) {
                   )}
                 </td>
                 <td>
-                  <code>{r.thumbprint}</code>
+                  <code>{tr(r.thumbprint)}</code>
                   {!r.private && <CopyButton value={r.thumbprint} />}
                 </td>
               </tr>

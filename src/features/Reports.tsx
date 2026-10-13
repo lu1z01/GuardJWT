@@ -60,12 +60,14 @@ export function Reports({
           onChange={(e) => setFormat(e.target.value as typeof format)}
         >
           {['JSON', 'Markdown', 'Plain Text'].map((f) => (
-            <option key={f}>{f}</option>
+            <option key={f} value={f}>
+              {tr(f)}
+            </option>
           ))}
         </select>
       </label>
       <pre>{preview}</pre>
-      <CopyButton value={preview} label="Copy report" />
+      <CopyButton value={preview} label={tr('Copy report')} />
       <button
         onClick={() => {
           const url = URL.createObjectURL(

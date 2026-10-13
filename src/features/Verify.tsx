@@ -66,9 +66,9 @@ export function Verify({
           {tr('Algorithm reference —')} {alg}
         </summary>
         <p>
-          {info.family} · {info.hash} · {info.key}
+          {info.family} · {tr(info.hash)} · {tr(info.key)}
         </p>
-        <p>{info.note}</p>
+        <p>{tr(info.note)}</p>
         <a
           href="https://www.rfc-editor.org/rfc/rfc7518.html"
           target="_blank"
@@ -124,8 +124,9 @@ export function Verify({
       )}
       {quality && (
         <p className={quality.weak || quality.short ? 'warning' : 'muted'}>
-          {quality.bytes} bytes. {quality.weak ? 'Weak test-like secret. ' : ''}
-          {quality.short ? 'Below RFC 7518 minimum key length. ' : ''}
+          {quality.bytes} bytes.{' '}
+          {quality.weak ? tr('Weak test-like secret.') + ' ' : ''}
+          {quality.short ? tr('Below RFC 7518 minimum key length.') + ' ' : ''}
           {tr('Length is not a measurement of entropy.')}{' '}
         </p>
       )}

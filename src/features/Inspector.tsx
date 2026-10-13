@@ -47,7 +47,8 @@ export function Inspector({
       )}
       {token.nested && (
         <div className="notice">
-          Outer JOSE → Inner JWT{' '}
+          {' '}
+          {tr('Outer JOSE → Inner JWT')}{' '}
           <button onClick={() => onNested(token.nested!)}>
             {' '}
             {tr('Inspect nested token')}{' '}
@@ -59,14 +60,14 @@ export function Inspector({
           <section key={s.name}>
             <div className="section-title">
               {' '}
-              {tr('Segment')} {i + 1} — {s.name}
+              {tr('Segment')} {i + 1} — {tr(s.name)}
               <CopyButton value={s.raw} />
             </div>
             <p>
               {s.raw.length} {tr('encoded characters ·')} {s.bytes}{' '}
               {tr('decoded bytes')}{' '}
             </p>
-            <pre>{s.raw || '(empty)'}</pre>
+            <pre>{s.raw || tr('(empty)')}</pre>
             <details>
               <summary>{tr('Hex · first 256 bytes')}</summary>
               <pre>{s.hex}</pre>
@@ -99,7 +100,7 @@ export function Inspector({
               <div
                 className="table-scroll"
                 role="region"
-                aria-label="Inspector table"
+                aria-label={tr('Inspector table')}
                 tabIndex={0}
               >
                 <table>
@@ -111,9 +112,9 @@ export function Inspector({
                           <th>{k}</th>
                           <td>
                             {(Object.hasOwn(HEADER, k)
-                              ? HEADER[k]
+                              ? tr(HEADER[k]!)
                               : undefined) ??
-                              'Extension or custom parameter; untrusted.'}
+                              tr('Extension or custom parameter; untrusted.')}
                           </td>
                           <td>
                             <code>{print(v, false)}</code>
@@ -145,14 +146,14 @@ export function Inspector({
               <div
                 className="table-scroll"
                 role="region"
-                aria-label="Inspector table"
+                aria-label={tr('Inspector table')}
                 tabIndex={0}
               >
                 <table>
                   <tbody>
                     {token.segments.slice(1).map((s) => (
                       <tr key={s.name}>
-                        <th>{s.name}</th>
+                        <th>{tr(s.name)}</th>
                         <td>{s.bytes} B</td>
                       </tr>
                     ))}
@@ -178,7 +179,7 @@ export function Inspector({
                   {token.segments[1]?.bytes} {tr('decoded bytes')}{' '}
                 </small>
                 {token.payloadError && (
-                  <p className="warning">{token.payloadError}</p>
+                  <p className="warning">{tr(token.payloadError)}</p>
                 )}
                 {view === 'Decoded' && token.payload ? (
                   <JsonTree
@@ -187,7 +188,9 @@ export function Inspector({
                     onSelect={onClaim ?? (() => {})}
                   />
                 ) : (
-                  <pre>{token.rawPayload || '(empty or detached payload)'}</pre>
+                  <pre>
+                    {token.rawPayload || tr('(empty or detached payload)')}
+                  </pre>
                 )}
               </section>
               <section aria-label={tr('Signature')}>
@@ -199,7 +202,7 @@ export function Inspector({
                   {token.segments[2]!.raw.length} {tr('Base64URL characters ·')}{' '}
                   {token.segments[2]!.bytes} bytes
                 </p>
-                <pre>{token.segments[2]!.raw || '(absent — unsigned)'}</pre>
+                <pre>{token.segments[2]!.raw || tr('(absent — unsigned)')}</pre>
                 <details>
                   <summary>{tr('Signature hex · first 256 bytes')}</summary>
                   <pre>{token.segments[2]!.hex}</pre>

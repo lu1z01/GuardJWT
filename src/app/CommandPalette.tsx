@@ -1,3 +1,4 @@
+import { searchText } from '../i18n/translate';
 import { useI18n } from '../i18n/context';
 export function CommandPalette({
   command,
@@ -45,9 +46,7 @@ export function CommandPalette({
           onChange={(e) => setCommand(e.target.value)}
         />
         {commands
-          .filter((n) =>
-            tr(n).toLocaleLowerCase().includes(command.toLocaleLowerCase()),
-          )
+          .filter((n) => searchText(tr(n)).includes(searchText(command)))
           .map((n) => (
             <button key={n} onClick={() => onChoose(n)}>
               {tr(n)}

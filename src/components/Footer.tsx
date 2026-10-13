@@ -1,3 +1,6 @@
+import { GitHubIcon } from './GitHubIcon';
+import { SiteLink } from './SiteLink';
+import { Brand } from './Brand';
 import { useI18n } from '../i18n/context';
 import { author, publicLink, repositoryUrl } from '../config/author';
 export function Footer({ compact = false }: { compact?: boolean }) {
@@ -12,7 +15,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
   return (
     <footer className={'site-footer' + (compact ? ' compact' : '')}>
       <div>
-        <strong>GuardJWT</strong>
+        <Brand />
         {!compact && <p>{tr('Local JWT & JOSE Security Workbench')}</p>}
         <small>
           {' '}
@@ -20,7 +23,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           {author.name}
         </small>
       </div>
-      <nav aria-label="Project links">
+      <nav aria-label={tr('Project links')}>
         {links.map(([label, value, email]) => {
           const href = publicLink(value, email);
           return href ? (
@@ -31,16 +34,17 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               target="_blank"
               rel="noopener noreferrer"
             >
+              {label === 'GitHub' && <GitHubIcon />}
               {label === 'GitHub' && repositoryUrl
                 ? tr('View source on GitHub')
                 : label}
             </a>
           ) : null;
         })}
-        <a href="/docs">{tr('Documentation')}</a>
-        <a href="/privacy">{tr('Privacy')}</a>
-        <a href="/security">{tr('Security policy')}</a>
-        <a href="/about">{tr('About')}</a>
+        <SiteLink href="/docs">{tr('Documentation')}</SiteLink>
+        <SiteLink href="/privacy">{tr('Privacy')}</SiteLink>
+        <SiteLink href="/security">{tr('Security policy')}</SiteLink>
+        <SiteLink href="/about">{tr('About')}</SiteLink>
         <a href="/LICENSE">{tr('MIT License')}</a>
       </nav>
       {!compact && (
