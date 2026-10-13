@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useRef, useState } from 'react';
 import {
   ALGORITHMS,
@@ -7,6 +8,7 @@ import {
 } from '../core/crypto/keys';
 import { CopyButton } from '../components/CopyButton';
 export function Keys({ kid }: { kid: unknown }) {
+  const { tr } = useI18n();
   const [input, setInput] = useState(''),
     [alg, setAlg] = useState('RS256'),
     [rows, setRows] = useState<Awaited<ReturnType<typeof inspectKeys>>>([]),
@@ -29,10 +31,12 @@ export function Keys({ kid }: { kid: unknown }) {
   }
   return (
     <>
-      <h2>Key Workbench</h2>
+      <h2>{tr('Key Workbench')}</h2>
       <p>
-        Local metadata only. A thumbprint does not establish trust. Private and
-        symmetric keys remain sensitive.
+        {' '}
+        {tr(
+          'Local metadata only. A thumbprint does not establish trust. Private and symmetric keys remain sensitive.',
+        )}{' '}
       </p>
       <label>
         PEM / JWK / JWKS
@@ -44,7 +48,8 @@ export function Keys({ kid }: { kid: unknown }) {
         />
       </label>
       <label>
-        Import local file
+        {' '}
+        {tr('Import local file')}{' '}
         <input
           type="file"
           accept=".pem,.json,.jwk,.jwks,.txt"
@@ -68,7 +73,8 @@ export function Keys({ kid }: { kid: unknown }) {
         />
       </label>
       <label>
-        PEM algorithm
+        {' '}
+        {tr('PEM algorithm')}{' '}
         <select
           value={alg}
           onChange={(e) => {
@@ -108,10 +114,15 @@ export function Keys({ kid }: { kid: unknown }) {
       </button>
       {!input && (
         <p className="muted">
-          Paste a public PEM, JWK or JWKS to inspect key metadata.
+          {' '}
+          {tr('Paste a public PEM, JWK or JWKS to inspect key metadata.')}{' '}
         </p>
       )}
-      {match && <p>Current token kid: {match}</p>}
+      {match && (
+        <p>
+          {tr('Current token kid:')} {match}
+        </p>
+      )}
       {error && <p role="alert">{error}</p>}
       <div
         className="table-scroll"
@@ -122,10 +133,10 @@ export function Keys({ kid }: { kid: unknown }) {
         <table>
           <thead>
             <tr>
-              <th>kid / type</th>
-              <th>Algorithm / use</th>
-              <th>Size / curve</th>
-              <th>SHA-256 thumbprint</th>
+              <th>{tr('kid / type')}</th>
+              <th>{tr('Algorithm / use')}</th>
+              <th>{tr('Size / curve')}</th>
+              <th>{tr('SHA-256 thumbprint')}</th>
             </tr>
           </thead>
           <tbody>
@@ -148,7 +159,8 @@ export function Keys({ kid }: { kid: unknown }) {
                   {r.bits !== undefined ? `${r.bits} bits` : r.curve}
                   {r.bits !== undefined && r.bits < 2048 && (
                     <small className="warning">
-                      Below 2048-bit RSA minimum
+                      {' '}
+                      {tr('Below 2048-bit RSA minimum')}{' '}
                     </small>
                   )}
                 </td>

@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useEffect, useRef, useState } from 'react';
 export function CopyButton({
   value,
@@ -6,6 +7,7 @@ export function CopyButton({
   value: string;
   label?: string;
 }) {
+  const { tr } = useI18n();
   const [status, setStatus] = useState('');
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const revision = useRef(0);
@@ -33,10 +35,10 @@ export function CopyButton({
           timer.current = setTimeout(() => setStatus(''), 2500);
         }}
       >
-        {label}
+        {tr(label)}
       </button>
       <span role="status" className="copy-feedback muted">
-        {status}
+        {tr(status)}
       </span>
     </span>
   );

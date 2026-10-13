@@ -1,5 +1,7 @@
+import { useI18n } from '../i18n/context';
 import { author, publicLink, repositoryUrl } from '../config/author';
 export function Footer({ compact = false }: { compact?: boolean }) {
+  const { tr } = useI18n();
   const links = [
     ['GitHub', repositoryUrl || author.github, false],
     ['LinkedIn', author.linkedin, false],
@@ -11,9 +13,11 @@ export function Footer({ compact = false }: { compact?: boolean }) {
     <footer className={'site-footer' + (compact ? ' compact' : '')}>
       <div>
         <strong>GuardJWT</strong>
-        {!compact && <p>Local JWT & JOSE Security Workbench</p>}
+        {!compact && <p>{tr('Local JWT & JOSE Security Workbench')}</p>}
         <small>
-          Built by {author.name} · © {new Date().getFullYear()} {author.name}
+          {' '}
+          {tr('Built by')} {author.name} · © {new Date().getFullYear()}{' '}
+          {author.name}
         </small>
       </div>
       <nav aria-label="Project links">
@@ -28,20 +32,21 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               rel="noopener noreferrer"
             >
               {label === 'GitHub' && repositoryUrl
-                ? 'View source on GitHub'
+                ? tr('View source on GitHub')
                 : label}
             </a>
           ) : null;
         })}
-        <a href="/docs">Documentation</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/security">Security</a>
-        <a href="/about">About</a>
-        <a href="/LICENSE">MIT License</a>
+        <a href="/docs">{tr('Documentation')}</a>
+        <a href="/privacy">{tr('Privacy')}</a>
+        <a href="/security">{tr('Security policy')}</a>
+        <a href="/about">{tr('About')}</a>
+        <a href="/LICENSE">{tr('MIT License')}</a>
       </nav>
       {!compact && (
         <p className="muted">
-          JWTs and cryptographic material are processed locally.
+          {' '}
+          {tr('JWTs and cryptographic material are processed locally.')}{' '}
         </p>
       )}
     </footer>

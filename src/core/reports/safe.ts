@@ -1,3 +1,4 @@
+import { version } from '../../../package.json';
 import type { Inspection } from '../jose/inspect';
 import type { Finding } from '../audit/analyze';
 import { score } from '../audit/analyze';
@@ -31,7 +32,7 @@ export function safeReport(
   const known = /^(HS|RS|PS|ES)(256|384|512)$|^none$|^EdDSA$|^Ed25519$/;
   return {
     application: 'GuardJWT',
-    version: '1.0.0-alpha.1',
+    version,
     notice:
       'Observable token properties only. Raw token, values, evidence, keys and signature bytes are excluded.',
     format: t.format,
@@ -75,6 +76,8 @@ export function safeReport(
       ? {
           policy: {
             passed: policy.filter((p) => p.status === 'Passed').length,
+            inconclusive: policy.filter((p) => p.status === 'Inconclusive')
+              .length,
             warnings: policy.filter((p) => p.status === 'Warnings').length,
             failed: policy.filter((p) => p.status === 'Failed').length,
           },

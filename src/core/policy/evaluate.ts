@@ -28,7 +28,7 @@ export interface Policy {
 }
 export interface PolicyCheck {
   rule: string;
-  status: 'Passed' | 'Warnings' | 'Failed';
+  status: 'Passed' | 'Warnings' | 'Failed' | 'Inconclusive';
   description: string;
 }
 export const PRESETS: Policy[] = [
@@ -250,9 +250,9 @@ export function evaluate(
       status:
         crypto === 'SIGNATURE VALID'
           ? 'Passed'
-          : crypto === 'NOT VERIFIED'
-            ? 'Warnings'
-            : 'Failed',
+          : crypto === 'SIGNATURE INVALID'
+            ? 'Failed'
+            : 'Inconclusive',
       description:
         'Requires actual verification with a supplied trusted key, not signature presence.',
     });

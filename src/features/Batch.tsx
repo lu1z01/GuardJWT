@@ -1,6 +1,8 @@
+import { useI18n } from '../i18n/context';
 import { useEffect, useRef, useState } from 'react';
 import { batch } from '../core/tools/batch';
 export function Batch() {
+  const { tr } = useI18n();
   const [raw, setRaw] = useState(''),
     [rows, setRows] = useState<ReturnType<typeof batch>>([]),
     [error, setError] = useState(''),
@@ -22,13 +24,16 @@ export function Batch() {
   }
   return (
     <>
-      <h2>Batch Analyzer</h2>
+      <h2>{tr('Batch Analyzer')}</h2>
       <p>
-        Up to 50 tokens, one per line; 1 MiB total. Rows use indexes instead of
-        raw tokens. Results are not persisted.
+        {' '}
+        {tr(
+          'Up to 50 tokens, one per line; 1 MiB total. Rows use indexes instead of raw tokens. Results are not persisted.',
+        )}{' '}
       </p>
       <label>
-        Batch input
+        {' '}
+        {tr('Batch input')}{' '}
         <textarea
           value={raw}
           onChange={(e) => {
@@ -81,9 +86,10 @@ export function Batch() {
           w.postMessage(raw);
         }}
       >
-        Analyze batch
+        {' '}
+        {tr('Analyze batch')}{' '}
       </button>
-      {busy && <span role="status">Analyzing locally…</span>}
+      {busy && <span role="status">{tr('Analyzing locally…')}</span>}
       {error && <p role="alert">{error}</p>}
       <div
         className="table-scroll"
@@ -104,7 +110,7 @@ export function Batch() {
                 'Hygiene',
                 'Size',
               ].map((h) => (
-                <th key={h}>{h}</th>
+                <th key={h}>{tr(h)}</th>
               ))}
             </tr>
           </thead>

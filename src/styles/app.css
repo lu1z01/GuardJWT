@@ -847,7 +847,8 @@ button:hover:not(:disabled) {
     margin: 0;
     padding: 4px;
     gap: 2px;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     background: var(--panel);
     border-bottom: 1px solid var(--border);
     position: sticky;
@@ -855,8 +856,9 @@ button:hover:not(:disabled) {
     z-index: 2;
   }
   .mobile-areas button {
+    min-height: 44px;
     padding: 6px 5px;
-    font-size: 11px;
+    font-size: 12px;
     border: 0;
     background: none;
     border-bottom: 2px solid transparent;
@@ -868,12 +870,13 @@ button:hover:not(:disabled) {
   }
   .more-tools {
     margin: 0;
-    max-width: 82px;
+    max-width: 140px;
+    flex: 1 1 100px;
   }
   .more-tools select {
     width: 100%;
-    min-height: 36px;
-    font-size: 11px;
+    min-height: 44px;
+    font-size: 12px;
     padding: 4px;
   }
   .claim-detail {
@@ -919,5 +922,69 @@ button:hover:not(:disabled) {
     scroll-behavior: auto !important;
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Plain-language start screen and language control. */
+.language-selector {
+  display: inline-flex;
+  margin: 0;
+  flex: 0 0 auto;
+}
+.language-selector select {
+  width: auto;
+  min-height: 36px;
+  max-width: 140px;
+}
+.welcome {
+  max-width: 680px;
+  padding: 24px 16px;
+  margin: 0 auto;
+}
+.welcome h1 {
+  font-size: clamp(22px, 2.5vw, 30px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.welcome > p {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+.getting-started {
+  padding-left: 24px;
+  margin: 28px 0;
+}
+.getting-started li {
+  padding: 4px 0 12px 8px;
+}
+.getting-started li::marker {
+  color: var(--accent);
+}
+.getting-started h2 {
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+.getting-started p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+.demo-note {
+  border-left: 3px solid var(--info);
+  padding: 8px 12px;
+  color: var(--info);
+}
+.usage-help {
+  margin: 0 0 16px;
+  max-width: 75ch;
+}
+@media (max-width: 720px) {
+  .welcome {
+    padding: 12px 2px;
+  }
+  .language-selector select {
+    max-width: 112px;
   }
 }

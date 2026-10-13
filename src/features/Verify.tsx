@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { algorithmInfo } from '../core/crypto/algorithms';
 import { useEffect, useRef, useState } from 'react';
 import { ALGORITHMS, secretQuality } from '../core/crypto/keys';
@@ -9,6 +10,7 @@ export function Verify({
   token: string;
   onResult: (result: CryptoResult) => void;
 }) {
+  const { tr } = useI18n();
   const [key, setKey] = useState(''),
     [alg, setAlg] = useState('HS256'),
     [mode, setMode] = useState<'secret' | 'key'>('secret'),
@@ -32,13 +34,21 @@ export function Verify({
   const quality = mode === 'secret' && key ? secretQuality(key, alg) : null;
   return (
     <>
-      <h2>Signature Verification</h2>
+      <h2>{tr('Signature Verification')}</h2>
       <p>
-        Choose the expected algorithm independently. Token-provided keys and
-        URLs are never trusted automatically.
+        {' '}
+        {tr(
+          'Choose the expected algorithm independently. Token-provided keys and URLs are never trusted automatically.',
+        )}{' '}
+      </p>
+      <p className="muted">
+        {tr(
+          'No key? You can still read the token and review its dates. Do not use an unknown key just to get a valid result.',
+        )}
       </p>
       <label>
-        Expected algorithm
+        {' '}
+        {tr('Expected algorithm')}{' '}
         <select
           value={alg}
           onChange={(e) => {
@@ -52,7 +62,9 @@ export function Verify({
         </select>
       </label>
       <details>
-        <summary>Algorithm reference — {alg}</summary>
+        <summary>
+          {tr('Algorithm reference —')} {alg}
+        </summary>
         <p>
           {info.family} · {info.hash} · {info.key}
         </p>
@@ -62,11 +74,13 @@ export function Verify({
           target="_blank"
           rel="noopener noreferrer"
         >
-          JOSE algorithm requirements
+          {' '}
+          {tr('JOSE algorithm requirements')}{' '}
         </a>
       </details>
       <label>
-        Key input type
+        {' '}
+        {tr('Key input type')}{' '}
         <select
           value={mode}
           onChange={(e) => {
@@ -75,12 +89,12 @@ export function Verify({
             setKey('');
           }}
         >
-          <option value="secret">HMAC secret (UTF-8)</option>
-          <option value="key">Public PEM / JWK / JWKS</option>
+          <option value="secret">{tr('HMAC secret (UTF-8)')}</option>
+          <option value="key">{tr('Public PEM / JWK / JWKS')}</option>
         </select>
       </label>
       <label>
-        {mode === 'secret' ? 'HMAC secret' : 'Verification key'}
+        {mode === 'secret' ? tr('HMAC secret') : tr('Verification key')}
         {mode === 'secret' ? (
           <input
             type={show ? 'text' : 'password'}
@@ -105,14 +119,14 @@ export function Verify({
       </label>
       {mode === 'secret' && (
         <button onClick={() => setShow(!show)}>
-          {show ? 'Hide' : 'Show'} secret
+          {show ? tr('Hide') : tr('Show')} {tr('secret')}{' '}
         </button>
       )}
       {quality && (
         <p className={quality.weak || quality.short ? 'warning' : 'muted'}>
           {quality.bytes} bytes. {quality.weak ? 'Weak test-like secret. ' : ''}
-          {quality.short ? 'Below RFC 7518 minimum key length. ' : ''}Length is
-          not a measurement of entropy.
+          {quality.short ? 'Below RFC 7518 minimum key length. ' : ''}
+          {tr('Length is not a measurement of entropy.')}{' '}
         </p>
       )}
       <button
@@ -128,12 +142,12 @@ export function Verify({
           setBusy(false);
         }}
       >
-        {busy ? 'Verifying locally…' : 'Verify signature'}
+        {busy ? tr('Verifying locally…') : tr('Verify signature')}
       </button>
       {result && (
         <div role="status" className="notice">
-          <strong>{result.status}</strong>
-          <p>{result.message}</p>
+          <strong>{tr(result.status)}</strong>
+          <p>{tr(result.message)}</p>
         </div>
       )}
     </>

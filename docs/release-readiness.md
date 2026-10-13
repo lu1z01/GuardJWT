@@ -1,4 +1,6 @@
-# GuardJWT 1.0.0-alpha.1 — registro de QA
+# GuardJWT 1.0.0-alpha.1 — registro histórico de QA
+
+Este registro descreve a limpeza anterior à interface multilíngue. Para os resultados atuais, consulte [QA do MVP](qa-mvp.md).
 
 Esta entrega é alpha. Os checks locais passaram; ainda não há evidência de renderização, acessibilidade assistiva, clipboard/permissões ou ciclo PWA em navegador/dispositivo real. O conector Browser não disponibilizou navegador. As telas Figma foram revisadas como design editável, sem substituir QA visual da aplicação.
 
@@ -15,7 +17,7 @@ Por solicitação explícita do responsável, todos os testes, setup, scripts de
 
 Uma instalação limpa com npm ci passou. npm run check aprovou Prettier, ESLint, TypeScript e build. O build final foi novamente servido e verificado por HTTP: 5 rotas e 28 arquivos de precache aprovados. npm audit retornou 0 vulnerabilidades conhecidas. O .gitignore foi conferido para node_modules, dist, arquivos .env, caches e configuração local de hospedagem.
 
-Bundle final de entrada: 268,58 kB / 84,53 kB gzip; CSS: 16,67 kB / 4,66 kB gzip. Os arquivos de teste não aparecem na distribuição. Nenhum remoto Git está configurado; não foi feito push ou deploy.
+Bundle daquela revisão: 268,58 kB / 84,53 kB gzip; CSS: 16,67 kB / 4,66 kB gzip. Os arquivos de teste não aparecem na distribuição. Nenhum remoto Git está configurado; não foi feito push ou deploy.
 
 ## Limpeza e preparação
 

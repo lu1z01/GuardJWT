@@ -1,9 +1,11 @@
+import { useI18n } from '../i18n/context';
 import { useEffect, useRef, useState } from 'react';
 import { encode, decode, utf8, text } from '../core/jose/inspect';
 import { readJson, print } from '../core/parsing/json';
 import { date } from '../core/timeline/analyze';
 import { CopyButton } from '../components/CopyButton';
 export function Tools({ token }: { token: string }) {
+  const { tr } = useI18n();
   const [input, setInput] = useState(''),
     [out, setOut] = useState(''),
     [error, setError] = useState('');
@@ -28,9 +30,10 @@ export function Tools({ token }: { token: string }) {
   }
   return (
     <>
-      <h2>Local developer tools</h2>
+      <h2>{tr('Local developer tools')}</h2>
       <label>
-        Input
+        {' '}
+        {tr('Input')}{' '}
         <textarea
           value={input}
           onChange={(e) => {
@@ -48,14 +51,16 @@ export function Tools({ token }: { token: string }) {
       </label>
       <div className="toolbar">
         <button onClick={() => action(() => encode(utf8(input)))}>
-          Base64URL encode
+          {' '}
+          {tr('Base64URL encode')}{' '}
         </button>
         <button onClick={() => action(() => text(decode(input)))}>
-          Base64URL decode
+          {' '}
+          {tr('Base64URL decode')}{' '}
         </button>
         {['Pretty print', 'Minify', 'Validate'].map((label, i) => (
           <button
-            key={label}
+            key={tr(label)}
             onClick={() =>
               action(() => {
                 const p = readJson(input);
@@ -69,7 +74,7 @@ export function Tools({ token }: { token: string }) {
               })
             }
           >
-            JSON {label}
+            JSON {tr(label)}
           </button>
         ))}
         <button
@@ -101,18 +106,26 @@ export function Tools({ token }: { token: string }) {
       {error && <p role="alert">{error}</p>}
       <pre>{out || 'Output appears here.'}</pre>
       {out && <CopyButton value={out} />}
-      <h2>Current token utilities</h2>
+      <h2>{tr('Current token utilities')}</h2>
       <p>
-        Do not share production tokens. Copying is an explicit local action.
+        {' '}
+        {tr(
+          'Do not share production tokens. Copying is an explicit local action.',
+        )}{' '}
       </p>
       <CopyButton
         value={'Authorization: Bearer ' + token}
         label="Copy Authorization header"
       />
       <p>
-        Authorization header: ~{utf8('Authorization: Bearer ' + token).length}{' '}
-        bytes. Cookie value: ~{utf8('token=' + token).length} bytes, excluding
-        attributes. Actual limits depend on your infrastructure.
+        {' '}
+        {tr('Authorization header: ~')}
+        {utf8('Authorization: Bearer ' + token).length}{' '}
+        {tr('bytes. Cookie value: ~')}
+        {utf8('token=' + token).length}{' '}
+        {tr(
+          'bytes, excluding attributes. Actual limits depend on your infrastructure.',
+        )}{' '}
       </p>
       <button
         onClick={async () => {
@@ -133,7 +146,8 @@ export function Tools({ token }: { token: string }) {
           }
         }}
       >
-        Compute token SHA-256 fingerprint
+        {' '}
+        {tr('Compute token SHA-256 fingerprint')}{' '}
       </button>
     </>
   );

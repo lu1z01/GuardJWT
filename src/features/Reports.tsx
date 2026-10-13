@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import {
   safeReport,
@@ -21,6 +22,7 @@ export function Reports({
   status: CryptoStatus;
   checks: PolicyCheck[];
 }) {
+  const { tr } = useI18n();
   const [options, setOptions] = useState(DEFAULT_REPORT),
     [format, setFormat] = useState<'JSON' | 'Markdown' | 'Plain Text'>('JSON');
   const preview = reportText(
@@ -29,11 +31,12 @@ export function Reports({
   );
   return (
     <>
-      <h2>Safe report</h2>
+      <h2>{tr('Safe report')}</h2>
       <p>
-        Review the exact export below. Values, evidence, token, keys and
-        signature bytes are excluded. Claim names and timestamps may identify a
-        user or system; include them only deliberately.
+        {' '}
+        {tr(
+          'Review the exact export below. Values, evidence, token, keys and signature bytes are excluded. Claim names and timestamps may identify a user or system; include them only deliberately.',
+        )}{' '}
       </p>
       <div className="toolbar">
         {Object.keys(options).map((k) => (
@@ -45,12 +48,13 @@ export function Reports({
                 setOptions({ ...options, [k]: e.target.checked })
               }
             />
-            {k}
+            {tr(k)}
           </label>
         ))}
       </div>
       <label>
-        Format
+        {' '}
+        {tr('Format')}{' '}
         <select
           value={format}
           onChange={(e) => setFormat(e.target.value as typeof format)}
@@ -76,7 +80,8 @@ export function Reports({
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         }}
       >
-        Download preview
+        {' '}
+        {tr('Download preview')}{' '}
       </button>
     </>
   );

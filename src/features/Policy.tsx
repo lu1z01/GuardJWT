@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import {
   PRESETS,
@@ -16,6 +17,7 @@ export function Policy({
   status: CryptoStatus;
   onChecks: (c: PolicyCheck[]) => void;
 }) {
+  const { tr } = useI18n();
   const [raw, setRaw] = useState(JSON.stringify(PRESETS[0], null, 2));
   const [checks, setChecks] = useState<PolicyCheck[]>([]),
     [error, setError] = useState('');
@@ -27,13 +29,16 @@ export function Policy({
   }
   return (
     <>
-      <h2>Policy Studio</h2>
+      <h2>{tr('Policy Studio')}</h2>
       <p>
-        Starting points only. Organizational rules are separate from the
-        Security Auditor.
+        {' '}
+        {tr(
+          'Starting points only. Organizational rules are separate from the Security Auditor.',
+        )}{' '}
       </p>
       <label>
-        Preset
+        {' '}
+        {tr('Preset')}{' '}
         <select
           onChange={(e) =>
             update(JSON.stringify(PRESETS[Number(e.target.value)], null, 2))
@@ -47,7 +52,8 @@ export function Policy({
         </select>
       </label>
       <label>
-        Policy JSON
+        {' '}
+        {tr('Policy JSON')}{' '}
         <textarea
           value={raw}
           spellCheck={false}
@@ -70,7 +76,8 @@ export function Policy({
           }
         }}
       >
-        Evaluate policy
+        {' '}
+        {tr('Evaluate policy')}{' '}
       </button>
       {error && <p role="alert">{error}</p>}
       <div
@@ -82,16 +89,16 @@ export function Policy({
         <table>
           <thead>
             <tr>
-              <th>Rule</th>
-              <th>Result</th>
-              <th>Meaning</th>
+              <th>{tr('Rule')}</th>
+              <th>{tr('Result')}</th>
+              <th>{tr('Meaning')}</th>
             </tr>
           </thead>
           <tbody>
             {checks.map((c, i) => (
               <tr key={i}>
                 <td>{c.rule}</td>
-                <td>{c.status}</td>
+                <td>{tr(c.status)}</td>
                 <td>{c.description}</td>
               </tr>
             ))}
@@ -99,7 +106,7 @@ export function Policy({
         </table>
       </div>
       <details>
-        <summary>Supported fields</summary>
+        <summary>{tr('Supported fields')}</summary>
         <p>
           allowedAlgorithms, forbiddenAlgorithms, requiredClaims,
           forbiddenClaims, issuerAllowlist, audienceAllowlist, maximumLifetime,
@@ -109,8 +116,10 @@ export function Policy({
           forbidEmbeddedJwk, forbidRemoteJku, requireTyp.
         </p>
         <p>
-          Scopes/roles are top-level lists. Forbidden claim names are checked
-          recursively. Policies are kept only in memory.
+          {' '}
+          {tr(
+            'Scopes/roles are top-level lists. Forbidden claim names are checked recursively. Policies are kept only in memory.',
+          )}{' '}
         </p>
       </details>
     </>

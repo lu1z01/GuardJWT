@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useState, type ReactNode } from 'react';
 import { print, type Value } from '../core/parsing/json';
 export function JsonTree({
@@ -9,6 +10,7 @@ export function JsonTree({
   selected?: string;
   onSelect: (pointer: string) => void;
 }) {
+  const { tr } = useI18n();
   const [wrap, setWrap] = useState(true);
   const [expanded, setExpanded] = useState(true);
   const [query, setQuery] = useState('');
@@ -79,14 +81,15 @@ export function JsonTree({
     <>
       <div className="toolbar json-controls">
         <button aria-pressed={wrap} onClick={() => setWrap(!wrap)}>
-          Wrap lines
+          {' '}
+          {tr('Wrap lines')}{' '}
         </button>
         <button onClick={() => setExpanded(!expanded)}>
-          {expanded ? 'Collapse all' : 'Expand all'}
+          {expanded ? tr('Collapse all') : tr('Expand all')}
         </button>
         <input
-          aria-label="Find in visible JSON"
-          placeholder="Find in visible JSON"
+          aria-label={tr('Find in visible JSON')}
+          placeholder={tr('Find in visible JSON')}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -96,15 +99,17 @@ export function JsonTree({
       </div>
       <pre
         tabIndex={0}
-        aria-label="JSON payload viewer"
+        aria-label={tr('JSON payload viewer')}
         className={'json-tree ' + (wrap ? '' : 'no-wrap')}
       >
         {expanded ? render(value, '', 0) : '{ … }'}
       </pre>
       {count > 500 && (
         <p className="muted">
-          Interactive view limited to 500 nodes. Raw JSON and Claims search
-          retain the full input.
+          {' '}
+          {tr(
+            'Interactive view limited to 500 nodes. Raw JSON and Claims search retain the full input.',
+          )}{' '}
         </p>
       )}
     </>

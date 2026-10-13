@@ -25,14 +25,16 @@ export function compare(a: Obj, b: Obj) {
     ].includes(x?.name ?? y?.name ?? '');
     const before = words(x?.value),
       after = words(y?.value);
+    const beforeSet = new Set(before),
+      afterSet = new Set(after);
     return [
       {
         path,
         status: !x ? 'Added' : !y ? 'Removed' : 'Changed',
         before: print(x?.value, false),
         after: print(y?.value, false),
-        added: semantic ? after.filter((v) => !before.includes(v)) : [],
-        removed: semantic ? before.filter((v) => !after.includes(v)) : [],
+        added: semantic ? after.filter((v) => !beforeSet.has(v)) : [],
+        removed: semantic ? before.filter((v) => !afterSet.has(v)) : [],
       },
     ];
   });

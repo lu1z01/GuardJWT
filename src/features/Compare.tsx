@@ -1,8 +1,10 @@
+import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import type { Inspection } from '../core/jose/inspect';
 import { useAnalysis } from '../hooks/useAnalysis';
 import { compare } from '../core/compare/diff';
 export function Compare({ token }: { token: Inspection }) {
+  const { tr } = useI18n();
   const [other, setOther] = useState('');
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState(100);
@@ -27,9 +29,10 @@ export function Compare({ token }: { token: Inspection }) {
     : [];
   return (
     <>
-      <h2>Compare · current token A vs token B</h2>
+      <h2>{tr('Compare · current token A vs token B')}</h2>
       <label>
-        Token B
+        {' '}
+        {tr('Token B')}{' '}
         <textarea
           value={other}
           spellCheck={false}
@@ -56,8 +59,10 @@ export function Compare({ token }: { token: Inspection }) {
         }}
       />
       <p>
-        {rows.length} changed fields. Value previews are limited to 2500
-        characters.
+        {rows.length}{' '}
+        {tr(
+          'changed fields. Value previews are limited to 2500 characters.',
+        )}{' '}
       </p>
       <div
         className="table-scroll"
@@ -68,10 +73,10 @@ export function Compare({ token }: { token: Inspection }) {
         <table>
           <thead>
             <tr>
-              <th>Path / change</th>
+              <th>{tr('Path / change')}</th>
               <th>A</th>
               <th>B</th>
-              <th>Semantic change</th>
+              <th>{tr('Semantic change')}</th>
             </tr>
           </thead>
           <tbody>
@@ -91,9 +96,15 @@ export function Compare({ token }: { token: Inspection }) {
                     <pre>{r.after.slice(0, 2500)}</pre>
                   </td>
                   <td>
-                    {r.added.length > 0 && <p>Added: {r.added.join(', ')}</p>}
+                    {r.added.length > 0 && (
+                      <p>
+                        {tr('Added:')} {r.added.join(', ')}
+                      </p>
+                    )}
                     {r.removed.length > 0 && (
-                      <p>Removed: {r.removed.join(', ')}</p>
+                      <p>
+                        {tr('Removed:')} {r.removed.join(', ')}
+                      </p>
                     )}
                   </td>
                 </tr>
@@ -103,11 +114,12 @@ export function Compare({ token }: { token: Inspection }) {
       </div>
       {rows.length > limit && (
         <button onClick={() => setLimit(limit + 100)}>
-          Show more differences
+          {' '}
+          {tr('Show more differences')}{' '}
         </button>
       )}
       {other && t?.ok && !rows.length && (
-        <p>No differences in compared fields.</p>
+        <p>{tr('No differences in compared fields.')}</p>
       )}
     </>
   );

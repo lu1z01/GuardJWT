@@ -29,4 +29,4 @@ Arrays têm até 100 entradas, cada string até 500 caracteres. Campos desconhec
 }
 ```
 
-Cada check retorna Passed, Warnings ou Failed. requireSignature é Passed somente com verificação criptográfica real; NOT VERIFIED gera Warnings. Uma policy aprovada não valida proveniência de chave/emissor ou o comportamento do servidor. Tempo usa o instante da avaliação; reavalie para atualizar. Resultados são invalidados ao mudar o token. Nenhuma política privada é salva ou transmitida automaticamente.
+Cada check retorna Passed, Warnings, Failed ou Inconclusive. requireSignature é Passed somente com SIGNATURE VALID; SIGNATURE INVALID gera Failed. NOT VERIFIED, UNSUPPORTED e erros de chave geram Inconclusive. Uma regra inconclusiva não satisfaz a política e aparece em uma contagem própria nos relatórios. Uma policy aprovada não valida proveniência de chave/emissor ou o comportamento do servidor. Tempo usa o instante da avaliação; reavalie para atualizar. Resultados são invalidados ao mudar o token. Nenhuma política privada é salva ou transmitida automaticamente.

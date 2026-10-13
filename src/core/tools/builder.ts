@@ -1,7 +1,7 @@
 import { CompactSign } from 'jose';
 import { readJson, object } from '../parsing/json';
 import { encode, utf8 } from '../jose/inspect';
-import { loadKey } from '../crypto/keys';
+import { loadKey, secretQuality } from '../crypto/keys';
 export async function build(
   header: string,
   payload: string,
@@ -9,6 +9,7 @@ export async function build(
   algorithm: string,
   key: string,
   mode: 'secret' | 'key',
+  allowInsecureDevelopmentSecret = false,
 ) {
   const h = readJson(header),
     p = readJson(payload);
@@ -33,6 +34,17 @@ export async function build(
       'Header algorithm must equal the selected signing algorithm.',
     );
   const imported = await loadKey(key, algorithm, mode, h.value.kid, 'sign');
+  if (algorithm.startsWith('HS') && !allowInsecureDevelopmentSecret) {
+    const minimum = Number(algorithm.slice(2)) / 8;
+    const bytes = imported instanceof Uint8Array ? imported.byteLength : 0;
+    if (
+      bytes < minimum ||
+      (mode === 'secret' && secretQuality(key, algorithm).weak)
+    )
+      throw new Error(
+        'Insecure HMAC secret. Use a sufficiently long random secret or explicitly allow an unsafe development example.',
+      );
+  }
   return new CompactSign(utf8(payload))
     .setProtectedHeader(JSON.parse(header))
     .sign(imported);

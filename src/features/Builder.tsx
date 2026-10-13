@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { build } from '../core/tools/builder';
 import { ALGORITHMS, secretQuality } from '../core/crypto/keys';
@@ -10,6 +11,7 @@ export function Builder({
 }: {
   onOpen?: (token: string, verify?: boolean) => void;
 }) {
+  const { tr } = useI18n();
   const [header, setHeader] = useState('{"alg":"HS256","typ":"JWT"}'),
     [payload, setPayload] = useState('{"sub":"fictional-user","role":"user"}'),
     [key, setKey] = useState(''),
@@ -18,6 +20,7 @@ export function Builder({
     [out, setOut] = useState(''),
     [error, setError] = useState(''),
     [custom, setCustom] = useState('3600');
+  const [allowInsecure, setAllowInsecure] = useState(false);
   const mode = alg.startsWith('HS') ? 'secret' : 'key';
   const quality = mode === 'secret' && key ? secretQuality(key, alg) : null;
   const generation = useRef(0);
@@ -51,7 +54,15 @@ export function Builder({
   async function run(sign: boolean) {
     const id = ++generation.current;
     try {
-      const result = await build(header, payload, sign, alg, key, mode);
+      const result = await build(
+        header,
+        payload,
+        sign,
+        alg,
+        key,
+        mode,
+        allowInsecure,
+      );
       if (id === generation.current) {
         setOut(result);
         setError('');
@@ -100,14 +111,17 @@ export function Builder({
   }
   return (
     <>
-      <h2>Encoder</h2>
+      <h2>{tr('Encoder')}</h2>
       <p>
-        Build and sign JWTs locally. Token Builder is intended for development
-        and testing.
+        {' '}
+        {tr(
+          'Build and sign JWTs locally. Token Builder is intended for development and testing.',
+        )}{' '}
       </p>
       <div className="encoder-editors">
         <label>
-          Header JSON
+          {' '}
+          {tr('Header JSON')}{' '}
           <textarea
             value={header}
             spellCheck={false}
@@ -122,7 +136,8 @@ export function Builder({
           />
         </label>
         <label>
-          Payload JSON
+          {' '}
+          {tr('Payload JSON')}{' '}
           <textarea
             value={payload}
             spellCheck={false}
@@ -143,7 +158,7 @@ export function Builder({
         </p>
       )}
       <div className="toolbar">
-        <strong>Add Claim</strong>
+        <strong>{tr('Add Claim')}</strong>
         {[
           'iss',
           'sub',
@@ -180,8 +195,8 @@ export function Builder({
         ))}
       </div>
       <div className="toolbar">
-        <button onClick={() => addClaim('iat', now())}>iat: Now</button>
-        <button onClick={() => addClaim('nbf', now())}>nbf: Now</button>
+        <button onClick={() => addClaim('iat', now())}>{tr('iat: Now')}</button>
+        <button onClick={() => addClaim('nbf', now())}>{tr('nbf: Now')}</button>
         {[
           [300, '5 min'],
           [900, '15 min'],
@@ -200,7 +215,8 @@ export function Builder({
       </div>
       <div className="toolbar">
         <label>
-          Custom expiration offset (seconds)
+          {' '}
+          {tr('Custom expiration offset (seconds)')}{' '}
           <input
             type="number"
             value={custom}
@@ -221,7 +237,8 @@ export function Builder({
             addClaim('exp', now() + n);
           }}
         >
-          Set custom exp
+          {' '}
+          {tr('Set custom exp')}{' '}
         </button>
       </div>
       {Object.entries(times).length > 0 && (
@@ -234,10 +251,10 @@ export function Builder({
           <table>
             <thead>
               <tr>
-                <th>Claim</th>
+                <th>{tr('Claim')}</th>
                 <th>Unix</th>
                 <th>UTC</th>
-                <th>Local</th>
+                <th>{tr('Local')}</th>
               </tr>
             </thead>
             <tbody>
@@ -257,15 +274,17 @@ export function Builder({
           </table>
         </div>
       )}
-      <h2>Signing configuration</h2>
+      <h2>{tr('Signing configuration')}</h2>
       <label>
-        Signing algorithm
+        {' '}
+        {tr('Signing algorithm')}{' '}
         <select
           value={alg}
           onChange={(e) => {
             const value = e.target.value;
             reset();
             setKey('');
+            setAllowInsecure(false);
             setAlg(value);
             try {
               const h = readJson(header);
@@ -292,6 +311,7 @@ export function Builder({
             value={key}
             onChange={(e) => {
               reset();
+              setAllowInsecure(false);
               setKey(e.target.value.length <= 1048576 ? e.target.value : '');
             }}
           />
@@ -302,6 +322,7 @@ export function Builder({
             autoComplete="off"
             onChange={(e) => {
               reset();
+              setAllowInsecure(false);
               setKey(e.target.value.length <= 1048576 ? e.target.value : '');
             }}
           />
@@ -309,25 +330,58 @@ export function Builder({
       </label>
       {mode === 'secret' && (
         <button onClick={() => setShow(!show)}>
-          {show ? 'Hide' : 'Show'} secret
+          {show ? tr('Hide') : tr('Show')} {tr('secret')}{' '}
         </button>
       )}
       {quality && (quality.weak || quality.short) && (
         <p className="warning">
-          Development secret warning: {quality.bytes} UTF-8 bytes.{' '}
+          {' '}
+          {tr('Development secret warning:')} {quality.bytes} UTF-8 bytes.{' '}
           {quality.short ? 'Below RFC 7518 minimum length. ' : ''}
-          {quality.weak ? 'Trivial pattern detected. ' : ''}Length is not a
-          measurement of entropy.
+          {quality.weak ? 'Trivial pattern detected. ' : ''}
+          {tr('Length is not a measurement of entropy.')}{' '}
         </p>
       )}
-      <button disabled={!key || !!validation} onClick={() => run(true)}>
-        Generate signed JWT
+      {quality && (quality.short || quality.weak) && !allowInsecure && (
+        <p className="warning">
+          {tr(
+            'Signing blocked: use a random HMAC secret of at least the algorithm minimum, or explicitly allow an unsafe development secret below.',
+          )}
+        </p>
+      )}
+      <button
+        disabled={
+          !key ||
+          !!validation ||
+          (!!quality && (quality.short || quality.weak) && !allowInsecure)
+        }
+        onClick={() => run(true)}
+      >
+        {' '}
+        {tr('Generate signed JWT')}{' '}
       </button>
       <details>
-        <summary>Advanced / Unsafe Examples</summary>
+        <summary>{tr('Advanced / Unsafe Examples')}</summary>
+        {mode === 'secret' && (
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={allowInsecure}
+              onChange={(e) => {
+                reset();
+                setAllowInsecure(e.target.checked);
+              }}
+            />
+            {tr(
+              'Allow insecure development secret — never use the generated token in production.',
+            )}
+          </label>
+        )}
         <p>
-          Unsecured JWTs have no signature. Use only as explicit development
-          fixtures.
+          {' '}
+          {tr(
+            'Unsecured JWTs have no signature. Use only as explicit development fixtures.',
+          )}{' '}
         </p>
         <button
           onClick={() => {
@@ -341,24 +395,29 @@ export function Builder({
             }
           }}
         >
-          Set alg:none
+          {' '}
+          {tr('Set alg:none')}{' '}
         </button>
         <button disabled={!!validation} onClick={() => run(false)}>
-          Generate unsecured JWT
+          {' '}
+          {tr('Generate unsecured JWT')}{' '}
         </button>
       </details>
       {error && <p role="alert">{error}</p>}
       {out && (
         <section>
-          <h2>Generated JWT</h2>
+          <h2>{tr('Generated JWT')}</h2>
           <pre>{out}</pre>
           <div className="toolbar">
             <CopyButton value={out} label="Copy JWT" />
             {onOpen && (
               <>
-                <button onClick={() => onOpen(out)}>Open in Decoder</button>
+                <button onClick={() => onOpen(out)}>
+                  {tr('Open in Decoder')}
+                </button>
                 <button onClick={() => onOpen(out, true)}>
-                  Verify generated JWT
+                  {' '}
+                  {tr('Verify generated JWT')}{' '}
                 </button>
               </>
             )}
@@ -366,9 +425,11 @@ export function Builder({
               onClick={() => {
                 reset();
                 setKey('');
+                setAllowInsecure(false);
               }}
             >
-              Clear output and key
+              {' '}
+              {tr('Clear output and key')}{' '}
             </button>
           </div>
         </section>

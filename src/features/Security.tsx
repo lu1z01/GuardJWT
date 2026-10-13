@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import { score, type Finding } from '../core/audit/analyze';
 export function Security({
@@ -11,6 +12,7 @@ export function Security({
   onClaim?: (pointer: string) => void;
   onClearFilter?: () => void;
 }) {
+  const { tr } = useI18n();
   const [q, setQ] = useState('');
   const [severity, setSeverity] = useState('');
   const s = score(findings);
@@ -25,20 +27,28 @@ export function Security({
   const [limit, setLimit] = useState(100);
   return (
     <>
-      <h2>Security Auditor</h2>
+      <h2>{tr('Security Auditor')}</h2>
       <div className="toolbar">
-        <strong>Token hygiene {s.hygiene}/100</strong>
-        <strong>Privacy exposure score {s.privacy}/100</strong>
+        <strong>
+          {tr('Token hygiene')} {s.hygiene}/100
+        </strong>
+        <strong>
+          {tr('Privacy exposure score')} {s.privacy}/100
+        </strong>
       </div>
       <p className="muted">
-        Observable properties only, not the security of the issuing application.
-        Unverified signatures are not counted as failed.
+        {' '}
+        {tr(
+          'Observable properties only, not the security of the issuing application. Unverified signatures are not counted as failed.',
+        )}{' '}
       </p>
       <details>
-        <summary>Score calculation</summary>
+        <summary>{tr('Score calculation')}</summary>
         <p>
-          Each axis starts at 100. High −20, Medium −10, Low −3; Info/Pass 0.
-          Minimum 0. Privacy findings affect only privacy.
+          {' '}
+          {tr(
+            'Each axis starts at 100. High −20, Medium −10, Low −3; Info/Pass 0. Minimum 0. Privacy findings affect only privacy.',
+          )}{' '}
         </p>
         {s.penalties.slice(0, 100).map((p) => (
           <div key={p.id}>
@@ -56,7 +66,8 @@ export function Security({
         }}
       />
       <label>
-        Severity
+        {' '}
+        {tr('Severity')}{' '}
         <select
           value={severity}
           onChange={(e) => {
@@ -64,25 +75,29 @@ export function Security({
             setLimit(100);
           }}
         >
-          <option value="">All severities</option>
+          <option value="">{tr('All severities')}</option>
           {['High', 'Medium', 'Low', 'Info', 'Pass'].map((level) => (
             <option key={level} value={level}>
-              {level} ({findings.filter((f) => f.severity === level).length})
+              {tr(level)} ({findings.filter((f) => f.severity === level).length}
+              )
             </option>
           ))}
         </select>
       </label>
       {pointer && (
         <p>
-          Related to <code>{pointer}</code>{' '}
-          <button onClick={onClearFilter}>Show all findings</button>
+          {' '}
+          {tr('Related to')} <code>{pointer}</code>{' '}
+          <button onClick={onClearFilter}>{tr('Show all findings')}</button>
         </p>
       )}
-      <p>{matched.length} matching findings</p>
+      <p>
+        {matched.length} {tr('matching findings')}
+      </p>
       {matched.slice(0, limit).map((f) => (
         <details className="finding" key={f.id}>
           <summary>
-            <span className={'severity ' + f.severity}>{f.severity}</span>{' '}
+            <span className={'severity ' + f.severity}>{tr(f.severity)}</span>{' '}
             {f.title}{' '}
             <small>
               {f.category} · {f.scope}
@@ -92,30 +107,36 @@ export function Security({
           {onClaim &&
             f.claimPointers?.map((p) => (
               <button key={p} onClick={() => onClaim(p)}>
-                View claim {p}
+                {' '}
+                {tr('View claim')} {p}
               </button>
             ))}
           <pre>{f.evidence}</pre>
           <p>
-            <strong>What to check:</strong> {f.recommendation}
+            <strong>{tr('What to check:')}</strong> {f.recommendation}
           </p>
           <p>
-            Confidence: {f.confidence} ·{' '}
+            {' '}
+            {tr('Confidence:')} {tr(f.confidence)} ·{' '}
             <a href={f.reference} target="_blank" rel="noopener noreferrer">
-              Technical reference
+              {' '}
+              {tr('Technical reference')}{' '}
             </a>
           </p>
         </details>
       ))}
       {matched.length > limit && (
         <button onClick={() => setLimit(limit + 100)}>
-          Show more findings
+          {' '}
+          {tr('Show more findings')}{' '}
         </button>
       )}
       {!findings.length && (
         <p>
-          No findings from the implemented checks. This is not a security
-          guarantee.
+          {' '}
+          {tr(
+            'No findings from the implemented checks. This is not a security guarantee.',
+          )}{' '}
         </p>
       )}
     </>

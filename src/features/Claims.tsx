@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context';
 import { useMemo, useState } from 'react';
 import { claims } from '../core/claims/explore';
 import { claimDetails } from '../core/claims/details';
@@ -15,6 +16,7 @@ export function Claims({
   onDecoder?: (p: string) => void;
   onSecurity?: (pointer: string) => void;
 }) {
+  const { tr } = useI18n();
   const [q, setQ] = useState(''),
     [category, setCategory] = useState(''),
     [sort, setSort] = useState('Original order'),
@@ -56,11 +58,14 @@ export function Claims({
   const active = all.find((c) => c.pointer === selected);
   return (
     <>
-      <h2>Claims Breakdown</h2>
+      <h2>{tr('Claims Breakdown')}</h2>
       <div className="toolbar">
-        <span>Claims {all.length}</span>
         <span>
-          Standard{' '}
+          {tr('Claims')} {all.length}
+        </span>
+        <span>
+          {' '}
+          {tr('Standard')}{' '}
           {
             all.filter((c) =>
               ['iss', 'sub', 'aud', 'exp', 'iat', 'nbf', 'jti'].includes(
@@ -70,7 +75,8 @@ export function Claims({
           }
         </span>
         <span>
-          Custom{' '}
+          {' '}
+          {tr('Custom')}{' '}
           {
             all.filter(
               (c) => claimDetails(c).category.toLowerCase() === 'custom',
@@ -78,14 +84,17 @@ export function Claims({
           }
         </span>
         <span>
-          Temporal {all.filter((c) => c.category === 'temporal').length}
+          {' '}
+          {tr('Temporal')} {all.filter((c) => c.category === 'temporal').length}
         </span>
-        <span>Possible PII {pii.size}</span>
+        <span>
+          {tr('Possible PII')} {pii.size}
+        </span>
       </div>
       <div className="toolbar">
         <input
-          aria-label="Search claims"
-          placeholder="Search names, paths, values or categories"
+          aria-label={tr('Search claims')}
+          placeholder={tr('Search names, paths, values or categories')}
           value={q}
           onChange={(e) => {
             setQ(e.target.value);
@@ -93,14 +102,14 @@ export function Claims({
           }}
         />
         <select
-          aria-label="Claim category"
+          aria-label={tr('Claim category')}
           value={category}
           onChange={(e) => {
             setCategory(e.target.value);
             setPage(0);
           }}
         >
-          <option value="">All</option>
+          <option value="">{tr('All')}</option>
           {[
             'Standard',
             'Custom',
@@ -113,11 +122,13 @@ export function Claims({
             'Session',
             'Confirmation',
           ].map((c) => (
-            <option key={c}>{c}</option>
+            <option key={c} value={c}>
+              {tr(c)}
+            </option>
           ))}
         </select>
         <select
-          aria-label="Claim sorting"
+          aria-label={tr('Claim sorting')}
           value={sort}
           onChange={(e) => {
             setSort(e.target.value);
@@ -125,18 +136,22 @@ export function Claims({
           }}
         >
           {['Original order', 'Alphabetical', 'Category', 'Risk'].map((s) => (
-            <option key={s}>{s}</option>
+            <option key={s} value={s}>
+              {tr(s)}
+            </option>
           ))}
         </select>
       </div>
       {selected && !active && (
-        <p role="status">Claim {selected} is absent from this payload.</p>
+        <p role="status">
+          {tr('Claim')} {selected} {tr('is absent from this payload.')}
+        </p>
       )}
       {active &&
         (() => {
           const d = claimDetails(active);
           return (
-            <section className="claim-detail" aria-label="Selected claim">
+            <section className="claim-detail" aria-label={tr('Selected claim')}>
               <h2>
                 {active.name} — {d.name}
               </h2>
@@ -153,73 +168,85 @@ export function Claims({
                   <dd>{d.temporal.unix}</dd>
                   <dt>UTC</dt>
                   <dd>{d.temporal.utc}</dd>
-                  <dt>Local</dt>
+                  <dt>{tr('Local')}</dt>
                   <dd>{d.temporal.local}</dd>
-                  <dt>Relative to analysis time</dt>
+                  <dt>{tr('Relative to analysis time')}</dt>
                   <dd>
-                    {Math.abs(d.temporal.relative)} seconds{' '}
+                    {Math.abs(d.temporal.relative)} {tr('seconds')}{' '}
                     {d.temporal.relative >= 0 ? 'from now' : 'ago'}
                   </dd>
-                  <dt>Temporal status only</dt>
+                  <dt>{tr('Temporal status only')}</dt>
                   <dd>{d.temporal.status}</dd>
                 </dl>
               )}
               {d.items && (
                 <>
-                  <p>Items: {d.items.length}</p>
+                  <p>
+                    {tr('Items:')} {d.items.length}
+                  </p>
                   {d.items.slice(0, 100).map((v, i) => (
                     <div className="toolbar" key={i}>
                       <code>{v}</code>
-                      <CopyButton value={v} label="Copy item" />
+                      <CopyButton value={v} label={tr('Copy item')} />
                     </div>
                   ))}
                   {d.items.length > 100 && (
                     <p className="muted">
-                      Showing the first 100 items. Copy Value retains the full
-                      claim; use Claims search to inspect other items.
+                      {' '}
+                      {tr(
+                        'Showing the first 100 items. Copy Value retains the full claim; use Claims search to inspect other items.',
+                      )}{' '}
                     </p>
                   )}
                 </>
               )}
               <div className="toolbar">
-                <CopyButton value={active.path} label="Copy Path" />
-                <CopyButton value={active.pointer} label="Copy JSON Pointer" />
+                <CopyButton value={active.path} label={tr('Copy Path')} />
+                <CopyButton
+                  value={active.pointer}
+                  label={tr('Copy JSON Pointer')}
+                />
                 <CopyButton
                   value={print(active.value, false)}
-                  label="Copy Value"
+                  label={tr('Copy Value')}
                 />
                 {onDecoder && (
                   <button onClick={() => onDecoder(active.pointer)}>
-                    Show in Decoder
+                    {' '}
+                    {tr('Show in Decoder')}{' '}
                   </button>
                 )}
                 {onSecurity && (
                   <button onClick={() => onSecurity(active.pointer)}>
-                    Related Security Findings
+                    {' '}
+                    {tr('Related Security Findings')}{' '}
                   </button>
                 )}
                 <a href={d.reference} rel="noopener noreferrer" target="_blank">
-                  Reference
+                  {' '}
+                  {tr('Reference')}{' '}
                 </a>
               </div>
             </section>
           );
         })()}
       {!rows.length && (
-        <p role="status">No claims match the current search and filters.</p>
+        <p role="status">
+          {tr('No claims match the current search and filters.')}
+        </p>
       )}
       <div
         className="table-scroll"
         role="region"
-        aria-label="Claims table"
+        aria-label={tr('Claims table')}
         tabIndex={0}
       >
         <table>
           <thead>
             <tr>
-              <th>Claim / path / type</th>
-              <th>Current value</th>
-              <th>Category</th>
+              <th>{tr('Claim / path / type')}</th>
+              <th>{tr('Current value')}</th>
+              <th>{tr('Category')}</th>
             </tr>
           </thead>
           <tbody>
@@ -240,11 +267,14 @@ export function Claims({
                 </td>
                 <td>
                   {claimDetails(c).category}
-                  {pii.has(c.pointer) && <small>Possible PII</small>}
+                  {pii.has(c.pointer) && <small>{tr('Possible PII')}</small>}
                   <div className="row-actions">
-                    <CopyButton value={c.path} label="Path" />
+                    <CopyButton value={c.path} label={tr('Path')} />
                     <CopyButton value={c.pointer} label="Pointer" />
-                    <CopyButton value={print(c.value, false)} label="Value" />
+                    <CopyButton
+                      value={print(c.value, false)}
+                      label={tr('Value')}
+                    />
                   </div>
                 </td>
               </tr>
@@ -254,16 +284,19 @@ export function Claims({
       </div>
       <div className="toolbar">
         <button disabled={!page} onClick={() => setPage(page - 1)}>
-          Previous
+          {' '}
+          {tr('Previous')}{' '}
         </button>
         <span>
-          Page {page + 1} · {rows.length} matching claims
+          {' '}
+          {tr('Page')} {page + 1} · {rows.length} {tr('matching claims')}{' '}
         </span>
         <button
           disabled={(page + 1) * 100 >= rows.length}
           onClick={() => setPage(page + 1)}
         >
-          Next
+          {' '}
+          {tr('Next')}{' '}
         </button>
       </div>
     </>

@@ -6,6 +6,10 @@ export function redact(payload: Obj, profile: RedactionProfile): Obj {
   function walk(v: Value, path: string, name: string): Value {
     if (
       sensitive.has(path) ||
+      (profile === 'Privacy' &&
+        /^(iss|aud|roles|role|scope|scp|groups|permissions|tenant|tenant_id|tenantid|tid|session|session_id|sessionid|session_state|sid|client_id|azp|auth_time|acr|amr)$/i.test(
+          name,
+        )) ||
       (profile !== 'Default' &&
         /^(sub|jti|sid|name|given_name|family_name|id|tid|tenant|nonce)$/i.test(
           name,

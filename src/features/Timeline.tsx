@@ -1,7 +1,9 @@
+import { useI18n } from '../i18n/context';
 import { useState } from 'react';
 import { timeline, date } from '../core/timeline/analyze';
 import type { Obj } from '../core/parsing/json';
 export function Timeline({ payload }: { payload: Obj }) {
+  const { tr } = useI18n();
   const [base, setBase] = useState(() => Date.now() / 1000),
     [offset, setOffset] = useState(0),
     [skew, setSkew] = useState(0);
@@ -16,9 +18,10 @@ export function Timeline({ payload }: { payload: Obj }) {
     .sort((a, b) => a.time! - b.time!);
   return (
     <>
-      <h2>Timeline / Time Simulator</h2>
+      <h2>{tr('Timeline / Time Simulator')}</h2>
       <p className="notice">
-        {t.status} — temporal checks only; this does not verify authenticity.
+        {t.status}{' '}
+        {tr('— temporal checks only; this does not verify authenticity.')}{' '}
       </p>
       <div className="timeline">
         {events.map((e) => (
@@ -30,7 +33,8 @@ export function Timeline({ payload }: { payload: Obj }) {
         ))}
       </div>
       <label>
-        Simulation offset: {offset} sec
+        {' '}
+        {tr('Simulation offset:')} {offset} sec
         <input
           aria-label="Simulation offset"
           type="range"
@@ -42,7 +46,8 @@ export function Timeline({ payload }: { payload: Obj }) {
         />
       </label>
       <label>
-        Analysis time (Unix seconds)
+        {' '}
+        {tr('Analysis time (Unix seconds)')}{' '}
         <input
           type="number"
           value={base + offset}
@@ -53,11 +58,12 @@ export function Timeline({ payload }: { payload: Obj }) {
         />
       </label>
       <label>
-        Clock skew
+        {' '}
+        {tr('Clock skew')}{' '}
         <select value={skew} onChange={(e) => setSkew(Number(e.target.value))}>
           {[0, 30, 60, 120].map((n) => (
             <option value={n} key={n}>
-              {n} seconds
+              {n} {tr('seconds')}{' '}
             </option>
           ))}
         </select>
@@ -68,18 +74,21 @@ export function Timeline({ payload }: { payload: Obj }) {
           setOffset(0);
         }}
       >
-        Reset to current time
+        {' '}
+        {tr('Reset to current time')}{' '}
       </button>
       <dl>
-        <dt>Lifetime</dt>
-        <dd>{t.lifetime ?? '—'} seconds</dd>
-        <dt>Remaining</dt>
+        <dt>{tr('Lifetime')}</dt>
+        <dd>
+          {t.lifetime ?? '—'} {tr('seconds')}
+        </dd>
+        <dt>{tr('Remaining')}</dt>
         <dd>
           {t.remaining === undefined
             ? '—'
             : Math.round(t.remaining) + ' seconds'}
         </dd>
-        <dt>Invalid dates</dt>
+        <dt>{tr('Invalid dates')}</dt>
         <dd>{t.invalid.join(', ') || 'None'}</dd>
       </dl>
     </>
