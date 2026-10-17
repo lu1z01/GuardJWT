@@ -1,23 +1,24 @@
 @import 'tailwindcss';
 
-/* GuardJWT tokens: graphite surfaces, emerald local state, cool information. */
+/* Same palette as the landing debugger (debugger.css); dark by default. */
 :root {
-  --canvas: #171b1f;
-  --panel: #20262b;
-  --input: #14181c;
-  --border: #394147;
-  --hover: #2b343a;
-  --text: #e0e5e7;
-  --muted: #a7b2b8;
+  --canvas: #111111;
+  --panel: #1c1c1c;
+  --input: #141414;
+  --border: rgba(255, 255, 255, 0.09);
+  --hover: rgba(255, 255, 255, 0.08);
+  --text: #f1f1f1;
+  --muted: #9a9da1;
   --accent: #78c8ab;
-  --success: #78c8ab;
-  --link: #99c6d6;
-  --info: #99c6d6;
-  --warning: #ddbb83;
-  --danger: #eaa1a7;
-  --focus: #99c6d6;
-  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --success: #6fd39a;
+  --link: #9fb4ff;
+  --info: #9fb4ff;
+  --warning: #e8bd6b;
+  --danger: #ff8a82;
+  --focus: #9fb4ff;
+  --mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
   font-family:
+    Inter,
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -31,20 +32,20 @@
   font-size: 13px;
 }
 .app-shell.light {
-  --canvas: #eff1ee;
-  --panel: #e5e9e6;
-  --input: #fafbf8;
-  --border: #bbc5c1;
-  --hover: #d8e2df;
-  --text: #25332f;
-  --muted: #526562;
-  --accent: #247255;
-  --success: #247255;
-  --link: #2b647c;
-  --info: #2b647c;
-  --warning: #80530b;
-  --danger: #a6293e;
-  --focus: #27677d;
+  --canvas: #f6f6f6;
+  --panel: #efefef;
+  --input: #ffffff;
+  --border: rgba(0, 0, 0, 0.08);
+  --hover: rgba(0, 0, 0, 0.06);
+  --text: #191919;
+  --muted: #6b6f73;
+  --accent: #0f7b5f;
+  --success: #0e7a46;
+  --link: #2447c7;
+  --info: #2447c7;
+  --warning: #8a5a00;
+  --danger: #b3261e;
+  --focus: #2447c7;
   color-scheme: light;
 }
 
@@ -70,7 +71,7 @@ button {
   color: inherit;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 5px 9px;
   white-space: nowrap;
   max-width: 100%;
@@ -93,7 +94,7 @@ input,
 select,
 textarea {
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 8px;
   background: var(--input);
   color: inherit;
   padding: 7px 9px;
@@ -162,7 +163,7 @@ pre {
   border: 1px solid var(--border);
   padding: 12px;
   margin: 9px 0;
-  border-radius: 4px;
+  border-radius: 8px;
   tab-size: 2;
 }
 code {
@@ -228,7 +229,13 @@ nav {
 nav button {
   border: 0;
   background: none;
-  padding: 4px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+}
+nav button:hover:not(:disabled) {
+  color: var(--text);
 }
 :focus-visible {
   outline: 2px solid var(--focus);
@@ -256,34 +263,42 @@ button:hover:not(:disabled) {
 .topbar {
   display: flex;
   align-items: center;
-  gap: 23px;
-  padding: 0 17px;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 12px 16px 0;
+  padding: 10px 18px;
   background: var(--panel);
-  border-bottom: 1px solid var(--border);
-  min-height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  min-height: 60px;
 }
 /* Preserve the supplied artwork; crop its empty margins only in presentation. */
 .brand {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
 }
 .brand-logo {
   display: block;
   width: 160px;
-  height: 48px;
-  object-fit: cover;
-  object-position: center 49%;
-  background: #fff;
+  height: auto;
+}
+.brand-logo--dark {
+  display: none;
+}
+.app-shell:not(.light) .brand-logo--light {
+  display: none;
+}
+.app-shell:not(.light) .brand-logo--dark {
+  display: block;
 }
 .site-footer .brand {
   margin-bottom: 6px;
 }
 .site-footer .brand-logo {
   width: 140px;
-  height: 44px;
 }
 .local {
   color: var(--success);
@@ -342,25 +357,25 @@ button:hover:not(:disabled) {
 }
 .tabs {
   display: flex;
+  gap: 2px;
   overflow: auto;
-  background: var(--panel);
+  background: var(--canvas);
   border-bottom: 1px solid var(--border);
-  padding: 0 7px;
-  min-height: 39px;
+  padding: 8px 14px;
   scrollbar-width: thin;
 }
 .tabs button {
   border: none;
   background: none;
-  border-radius: 0;
-  font-size: 11px;
-  padding: 9px 10px;
-  border-bottom: 2px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 6px 12px;
+  color: var(--muted);
   flex: none;
 }
 .tabs button[aria-selected='true'] {
-  border-bottom-color: var(--info);
-  color: var(--info);
+  background: var(--hover);
+  color: var(--text);
 }
 .panel-content {
   padding: 17px;
@@ -609,7 +624,7 @@ button:hover:not(:disabled) {
 }
 .claim-detail {
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 14px;
 }
 .claim-detail dl {
@@ -936,6 +951,11 @@ button:hover:not(:disabled) {
   width: auto;
   min-height: 36px;
   max-width: 140px;
+  border-radius: 999px;
+}
+select option {
+  background: var(--panel);
+  color: var(--text);
 }
 .welcome {
   max-width: 680px;

@@ -189,8 +189,27 @@
   border-radius: 8px;
 }
 .dbg-header .brand-logo {
-  width: 128px;
-  height: 38px;
+  width: 132px;
+}
+.dbg .brand-logo--light {
+  display: block;
+}
+.dbg .brand-logo--dark {
+  display: none;
+}
+.dbg[data-theme='dark'] .brand-logo--light {
+  display: none;
+}
+.dbg[data-theme='dark'] .brand-logo--dark {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  .dbg[data-theme='system'] .brand-logo--light {
+    display: none;
+  }
+  .dbg[data-theme='system'] .brand-logo--dark {
+    display: block;
+  }
 }
 .dbg-nav {
   display: flex;

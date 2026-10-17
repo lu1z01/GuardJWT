@@ -12,4 +12,4 @@ Na aplicação: JSON com destaque por tipo, entrada com contador e controle de q
 
 ## Logo fornecida pelo responsável
 
-A marca exibida no workspace, páginas institucionais e rodapé usa `public/logo.png`, preservando o arquivo fornecido. O componente `Brand` centraliza o link de início e o texto alternativo. O CSS enquadra as margens vazias sem deformar ou alterar a imagem e mantém o fundo branco nos dois temas. O asset é local e incluído automaticamente no cache estático do build.
+A marca usa `public/logo-light.png` no tema claro e `public/logo-dark.png` no escuro, ambos com fundo transparente (no escuro, o nome "Guard" fica claro). O componente `Brand` centraliza o link de início e o texto alternativo; a variante escura é ocultada da leitura de tela. Os assets são locais e incluídos automaticamente no cache estático do build.
