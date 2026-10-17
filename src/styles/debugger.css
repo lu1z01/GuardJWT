@@ -1008,27 +1008,3 @@
     transition: none !important;
   }
 }
-
-/* Shared GJ monogram wordmark. */
-.dbg .brand {
-  gap: 8px;
-  text-decoration: none;
-}
-.dbg .brand-mark {
-  width: 38px;
-  height: 38px;
-  color: var(--fg);
-}
-.dbg .brand-name {
-  color: var(--fg);
-  font-size: 21px;
-  font-weight: 750;
-  letter-spacing: -1px;
-}
-.dbg .brand-name span {
-  color: #2878f0;
-}
-.dbg .site-footer .brand-mark {
-  width: 34px;
-  height: 34px;
-}

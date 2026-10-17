@@ -1020,35 +1020,7 @@ select option {
   flex: 0 0 auto;
 }
 
-/* Refined workbench identity: the debugger palette, with clearer surfaces and stronger hierarchy. */
-.brand {
-  gap: 9px;
-  overflow: visible;
-  text-decoration: none !important;
-}
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 auto;
-  color: #f4f6fb;
-}
-.brand-name {
-  color: var(--text);
-  font-size: 22px;
-  line-height: 1;
-  font-weight: 750;
-  letter-spacing: -1.2px;
-}
-.brand-name span {
-  color: #2878f0;
-}
-.site-footer .brand-mark {
-  width: 34px;
-  height: 34px;
-}
-.site-footer .brand-name {
-  font-size: 20px;
-}
+/* Workbench accents drawn from the landing page palette. */
 .app-shell:not(.light) {
   --accent: #78c8ab;
   --link: #9fb4ff;
