@@ -213,14 +213,6 @@ export function Workspace() {
             {' '}
             {tr('Commands')}{' '}
           </button>
-          <span
-            className="local"
-            title={tr(
-              'JWTs and cryptographic material are processed locally in your browser.',
-            )}
-          >
-            LOCAL
-          </span>
           {source && (
             <a href={source} target="_blank" rel="noopener noreferrer">
               GitHub

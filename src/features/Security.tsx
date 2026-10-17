@@ -47,7 +47,7 @@ export function Security({
       <p className="muted">
         {' '}
         {tr(
-          'Observable properties only, not the security of the issuing application. Unverified signatures are not counted as failed.',
+          'Heuristic indicator based on visible token findings; it is not a validated security rating and does not assess the server or issuer. Unverified signatures are not counted as failed.',
         )}{' '}
       </p>
       <details>

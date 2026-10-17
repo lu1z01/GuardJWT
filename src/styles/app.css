@@ -1019,3 +1019,85 @@ select option {
 .source-link svg {
   flex: 0 0 auto;
 }
+
+/* Refined workbench identity: the debugger palette, with clearer surfaces and stronger hierarchy. */
+.brand {
+  gap: 9px;
+  overflow: visible;
+  text-decoration: none !important;
+}
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  color: #f4f6fb;
+}
+.brand-name {
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 750;
+  letter-spacing: -1.2px;
+}
+.brand-name span {
+  color: #2878f0;
+}
+.site-footer .brand-mark {
+  width: 34px;
+  height: 34px;
+}
+.site-footer .brand-name {
+  font-size: 20px;
+}
+.app-shell:not(.light) {
+  --accent: #78c8ab;
+  --link: #9fb4ff;
+  --info: #9fb4ff;
+}
+.app-shell:not(.light) .topbar {
+  border-color: rgba(159,180,255,.16);
+  box-shadow: 0 10px 36px rgba(0,0,0,.16);
+}
+.app-shell:not(.light) .workspace-toolbar {
+  background: linear-gradient(90deg, rgba(120,200,171,.08), rgba(159,180,255,.06), transparent);
+}
+.app-shell:not(.light) .desktop-tabs {
+  background: #191a20;
+  border-bottom-color: rgba(159,180,255,.14);
+}
+.app-shell:not(.light) .desktop-tabs button[aria-selected='true'] {
+  color: #e9edff;
+  background: linear-gradient(135deg,rgba(120,200,171,.18),rgba(159,180,255,.18));
+  box-shadow: inset 0 -2px #9fb4ff;
+}
+.app-shell:not(.light) .input-panel {
+  background: linear-gradient(180deg, rgba(120,200,171,.035), transparent 240px), #141518;
+}
+.app-shell:not(.light) .panel-content {
+  background: radial-gradient(ellipse at 10% 0%, rgba(159,180,255,.055), transparent 38%), var(--canvas);
+}
+.app-shell:not(.light) .panel-content > h2 {
+  color: #e7eaff;
+  font-size: 16px;
+}
+.app-shell:not(.light) .panel-content details, .app-shell:not(.light) .panel-content .finding, .app-shell:not(.light) .claim-detail {
+  border-color: rgba(159,180,255,.16);
+  border-radius: 10px;
+}
+.app-shell:not(.light) .panel-content pre {
+  border-radius: 10px;
+}
+.app-shell:not(.light) button:hover:not(:disabled) {
+  border-color: rgba(159,180,255,.42);
+  background-color: rgba(159,180,255,.09);
+}
+.site-footer nav > a[aria-label='GitHub'] {
+  display:inline-flex;
+  align-items:center;
+  padding:8px;
+  border-radius:50%;
+}
+.site-footer nav > a[aria-label='GitHub'] svg {
+  width:20px;
+  height:20px;
+}

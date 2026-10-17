@@ -1,4 +1,8 @@
 export const interfaceMessages: Record<string, readonly [string, string]> = {
+  'Heuristic indicator based on visible token findings; it is not a validated security rating and does not assess the server or issuer. Unverified signatures are not counted as failed.': [
+    'Indicador heurístico baseado nos achados visíveis do token; não é uma classificação de segurança validada e não avalia o servidor ou o emissor. Assinaturas não verificadas não são consideradas falhas.',
+    'Indicador heurístico basado en los hallazgos visibles del token; no es una calificación de seguridad validada y no evalúa el servidor ni el emisor. Las firmas no verificadas no se consideran fallidas.',
+  ],
   'Required claim: {name}': [
     'Claim obrigatória: {name}',
     'Claim obligatoria: {name}',

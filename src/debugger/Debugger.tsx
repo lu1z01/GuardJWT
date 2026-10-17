@@ -12,7 +12,6 @@ import {
   ChevronIcon,
   MenuIcon,
   MoonIcon,
-  ShieldCheckIcon,
   SunIcon,
   SystemIcon,
 } from './icons';
@@ -126,15 +125,6 @@ export function Debugger() {
           ))}
         </nav>
         <div className="dbg-header-end">
-          <span
-            className="dbg-local"
-            title={tr(
-              'JWTs and cryptographic material are processed locally in your browser.',
-            )}
-          >
-            <ShieldCheckIcon />
-            {tr('Local')}
-          </span>
           <LanguageSelector />
           <div className="dbg-theme" role="radiogroup" aria-label={tr('Theme')}>
             {themes.map(([value, label, icon]) => (
