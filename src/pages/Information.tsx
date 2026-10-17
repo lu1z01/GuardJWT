@@ -12,7 +12,7 @@ export function Information({ path }: { path: string }) {
     <div className="app-shell institutional">
       <header className="topbar">
         <Brand />
-        <SiteLink href="/">{tr('← Open workbench')}</SiteLink>
+        <SiteLink href="/">{tr('← Open debugger')}</SiteLink>
         <LanguageSelector />
       </header>
       {path === '/privacy' ? (
@@ -165,7 +165,7 @@ export function Information({ path }: { path: string }) {
               <p>
                 {' '}
                 {tr('Return to the')}{' '}
-                <SiteLink href="/">{tr('workbench')}</SiteLink>{' '}
+                <SiteLink href="/">{tr('debugger')}</SiteLink>{' '}
                 {tr('or open the')}{' '}
                 <SiteLink href="/docs">{tr('documentation')}</SiteLink>.
               </p>

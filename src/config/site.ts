@@ -8,6 +8,11 @@ export const site = {
 };
 export const pages = {
   '/': { title: site.title, description: site.description },
+  '/workbench': {
+    title: 'Workbench — GuardJWT',
+    description:
+      'Advanced local JWT and JOSE workbench: claims, signature verification, policies, keys, comparison and safe reports.',
+  },
   '/docs': {
     title: 'Documentation — GuardJWT',
     description:

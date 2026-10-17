@@ -23,9 +23,14 @@ export function SiteLink({ onClick, ...props }: ComponentProps<'a'>) {
           url.origin !== window.location.origin ||
           url.search ||
           url.hash ||
-          !['/', '/docs', '/privacy', '/security', '/about'].includes(
-            url.pathname,
-          )
+          ![
+            '/',
+            '/workbench',
+            '/docs',
+            '/privacy',
+            '/security',
+            '/about',
+          ].includes(url.pathname)
         )
           return;
         event.preventDefault();

@@ -13,7 +13,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin || url.search) return;
   const route = url.pathname.replace(/\\/+$/, '') || '/';
-  const shell = request.mode === 'navigate' && ['/', '/index.html', '/privacy', '/docs', '/security', '/about'].includes(route);
+  const shell = request.mode === 'navigate' && ['/', '/index.html', '/privacy', '/workbench', '/docs', '/security', '/about'].includes(route);
   if (!shell && !ASSETS.includes(url.pathname)) return;
   const routeAsset = route === '/' || route === '/index.html' ? '/index.html' : route + '/index.html';
   event.respondWith(caches.open(CACHE).then(cache => cache.match(shell ? (ASSETS.includes(routeAsset) ? routeAsset : '/index.html') : url.pathname)).then(response => response || fetch(request)));

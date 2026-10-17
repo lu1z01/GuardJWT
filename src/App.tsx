@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Workspace } from './app/Workspace';
+import { Debugger } from './debugger/Debugger';
 import { Information } from './pages/Information';
 import { pages, site } from './config/site';
 import { useI18n } from './i18n/context';
@@ -44,5 +45,7 @@ export default function App() {
       main?.focus();
     }
   }, [path, tr]);
-  return path === '/' ? <Workspace /> : <Information path={path} />;
+  if (path === '/') return <Debugger />;
+  if (path === '/workbench') return <Workspace />;
+  return <Information path={path} />;
 }

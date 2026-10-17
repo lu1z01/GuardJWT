@@ -4,6 +4,8 @@ import { useI18n } from '../i18n/context';
 import { LanguageSelector } from '../i18n';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Brand } from '../components/Brand';
+import { SiteLink } from '../components/SiteLink';
+import { session } from './session';
 import { Footer } from '../components/Footer';
 import { publicLink, repositoryUrl } from '../config/author';
 import { useAnalysis } from '../hooks/useAnalysis';
@@ -63,7 +65,7 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 export function Workspace() {
   const { tr, locale } = useI18n();
-  const [token, setToken] = useState(''),
+  const [token, setToken] = useState(() => session.peekToken()),
     [tab, setTab] = useState<Tab>('Decoder'),
     [message, setMessage] = useState(''),
     [version, setVersion] = useState(0),
@@ -151,6 +153,9 @@ export function Workspace() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
   useEffect(() => {
+    session.clearToken();
+  }, []);
+  useEffect(() => {
     if (!palette) paletteReturn.current?.focus();
   }, [palette]);
   useEffect(() => {
@@ -186,6 +191,7 @@ export function Workspace() {
         <Brand />
         <nav aria-label={tr('Main navigation')}>
           <LanguageSelector />
+          <SiteLink href="/">{tr('Debugger')}</SiteLink>
           <button
             ref={analyzeButton}
             aria-keyshortcuts="Control+Enter Meta+Enter"
